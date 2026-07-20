@@ -8,7 +8,14 @@
   & > * {
     width: 400px;
   }
+
+  .special {
+    --app-expander-header-background-color: lightcoral;
+    --app-expander-border-color : red;
+    --app-expander-animation-duration: 0;
+  }
 }
+
 
 span[expander-header] {
   display: flex;
@@ -37,6 +44,4 @@ button[expander-toggle] {
   }
 }
 
-// strong {
-//   color: var(--expander-primary)
-// }
+
