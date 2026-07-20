@@ -1,0 +1,33 @@
+
+<!--
+  GRID REFLOW ANIMATION PATTERN:
+  This accordion animates dynamic height by transitioning 'grid-template-rows' from '0fr' to '1fr'.
+  The host controls the grid tracks, while the content-area utilizes animation hooks to delay
+  DOM removal, allowing opacity and padding to fade out smoothly before the element leaves.
+-->
+
+<div class="header-area">
+  {{header()}}
+</div>
+
+<div class="toggle-area">
+  <button (click)="toggle()">
+    @if (isExpanded()){
+      -
+    } @else{
+      +
+    }
+  </button>
+</div>
+
+<!--
+  animate.leave="leaves": Delays DOM removal during exit to let the 300ms grid collapse finish
+  animate.enter="enters": Matches entry duration with the grid expansion timeline
+-->
+@if(isExpanded()){
+  <div class="content-area"
+    animate.leave="leaves"
+    animate.enter="enters"> // Needed for the animation
+    {{content()}}
+  </div>
+}

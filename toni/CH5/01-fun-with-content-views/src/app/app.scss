@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: start;
+  padding: 1rem;
+
+  & > * {
+    width: 400px;
+  }
+
+  .grayscale {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  h2 {
+    color: green
+  }
+}
+
+span[expander-header] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  app-icon {
+    color: var(--p-04);
+  }
+}
+
+button[expander-toggle] {
+  width: auto;
+
+  span {
+    font-size: 0.6em;
+  }
+
+  app-icon {
+    transition: transform 0.3s;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}

@@ -1,0 +1,8 @@
+
+// :host: Es un selector especial de Angular. Apunta a la "cáscara" o contenedor
+// exterior del componente (por ejemplo, si tu componente se llama <app-profile>,
+// :host representa a la etiqueta <app-profile>).
+
+:host {
+  display: flex;
+}
