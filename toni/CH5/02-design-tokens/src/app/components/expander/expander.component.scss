@@ -56,12 +56,39 @@
   background: var(--_app-expander-header-background-color);
 }
 
+// PIERCING STYLES (Ng-Deep Pattern):
+// Although '::ng-deep' is deprecated, it is still the standard way to bypass
+// Angular's view encapsulation. It forces the component's styles to drill down
+// and successfully apply custom formatting to the externally projected <h2> content.
+
 .content-area {
   grid-area: content;
   display: flex;
   flex-direction: column;
   padding: 14px 20px;
   min-height: 0;
+
+  ::ng-deep h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--_app-expander-base-color);
+    margin: 12px 0 4px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  ::ng-deep p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 8px;
+    color: var(--n-06);
+  }
+
+  ::ng-deep strong {
+    color: var(--p-07);
+  }
 
   &.leaves {
     animation: delay var(--_app-expander-animation-duration);
