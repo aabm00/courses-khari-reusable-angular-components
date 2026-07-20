@@ -5,9 +5,15 @@
   // --expander-shadow: color-mix(in srgb, var(--expander-primary) 8%, transparent);
 
 :host {
-  --_app-expander-header-background-color : var(--app-expander-header-background-color, lightblue);
-  --_app-expander-border-color : var(--app-expander-border-color, blue);
-  --_app-expander-shadow-color : var(--app-expander-shadow-color, gray);
+  --_app-expander-base-color: var(--app-expander-base-color, #6b45bf);
+
+  --_app-expander-base-light: color-mix(in srgb, var(--_app-expander-base-color), white 75%);
+  --_app-expander-base-lighter: color-mix(in srgb, var(--_app-expander-base-color), white 85%);
+  --_app-expander-base-transparent: color-mix(in srgb, var(--_app-expander-base-color), transparent 90%);
+
+  --_app-expander-header-background-color : var(--app-expander-header-background-color, var(--_app-expander-base-lighter));
+  --_app-expander-border-color : var(--app-expander-border-color, var(--_app-expander-base-light));
+  --_app-expander-shadow-color : var(--app-expander-shadow-color, var(--_app-expander-base-transparent));
   --_app-expander-animation-duration : var(--app-expander-animation-duration, 300ms);
 
 
@@ -38,7 +44,7 @@
   align-items: center;
   padding: 14px 20px;
   background: var(--_app-expander-header-background-color);
-  color: var(--expander-primary);
+  color: var(--_app-expander-base-color);
   font-weight: 600;
 }
 
