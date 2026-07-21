@@ -1,4 +1,4 @@
-import { Directive, input } from "@angular/core";
+import { Directive, effect, input } from "@angular/core";
 
 /** ANGULAR MICROSYNTAX INPUT NAMING RULE:
  * Secondary inputs MUST be named using the directive's selector as a prefix
@@ -15,4 +15,14 @@ export class MyRepeat {
   readonly myRepeat = input.required<number>()
   readonly myRepeatStart = input(0)
   readonly myRepeatSkip = input(1)
+
+  constructor() {
+    effect(() => {
+      console.log(`My Repeat,
+        times = ${this.myRepeat()},
+        start = ${this.myRepeatStart()},
+        skip = ${this.myRepeatSkip()}
+      `)
+    })
+  }
 }
