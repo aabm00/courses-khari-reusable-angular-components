@@ -1,5 +1,6 @@
 import { Component, computed, contentChild, input, model, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ItemTemplateDirective } from './item-template.directive';
 
 @Component({
   selector: 'app-item-selector',
@@ -23,3 +24,8 @@ export class ItemSelectorComponent {
   readonly itemTemplate = contentChild<TemplateRef<any>>(TemplateRef)
   readonly hasItemTemplate = computed(() => !!this.itemTemplate())
 }
+
+export const ItemSelector = [
+  ItemSelectorComponent,
+  ItemTemplateDirective
+]
