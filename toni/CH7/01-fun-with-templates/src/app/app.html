@@ -22,14 +22,24 @@
     [(selectedOption)]="selectedFont">
 
     <!-- optional Template for Fonts -->
-    <ng-template let-font>
+    <ng-template appItemTemplate let-font>
       <span [style.font-family]="font"> {{ font }}</span>
     </ng-template>
   </app-item-selector>
 </div>
 
 <div class="sizes-area">
-  <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
+  <app-item-selector
+    title="Sizes"
+    [options]="possibleSizes()"
+    [(selectedOption)]="selectedSize">
+
+    <!-- optional Template for Sizes -->
+    <ng-template appItemTemplate let-size>
+      <span [style.font-family]="size"> {{ size }}</span>
+    </ng-template>
+
+  </app-item-selector>
 </div>
 
 <div class="editor-area">

@@ -2,6 +2,7 @@ import { Component, computed, contentChild, input, model, TemplateRef } from '@a
 import { CommonModule } from '@angular/common';
 import { ItemTemplateDirective } from './item-template.directive';
 
+
 @Component({
   selector: 'app-item-selector',
   imports: [CommonModule],
@@ -21,8 +22,9 @@ export class ItemSelectorComponent {
   }
 
   // Template comming from parent
-  readonly itemTemplate = contentChild<TemplateRef<any>>(TemplateRef)
-  readonly hasItemTemplate = computed(() => !!this.itemTemplate())
+  readonly itemTemplateDirective = contentChild(ItemTemplateDirective)
+  readonly hasItemTemplate = computed(() => !!this.itemTemplateDirective())
+  readonly itemTemplate = computed(() => this.itemTemplateDirective()?.template ?? null)
 }
 
 export const ItemSelector = [

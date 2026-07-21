@@ -1,5 +1,5 @@
 # Building Reusable Components in Angular - The missing guide
-# CH7 - VIDEO 66 - 71
+# CH7 - VIDEO 66 - 72
 
 ![thumbnail](./slides/thumbnail.png)
 
