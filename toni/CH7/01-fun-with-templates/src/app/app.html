@@ -1,22 +1,10 @@
 <div class="colors-area">
-	<div class="item-selector">
-		<span>Color</span>
-		<div class="options-list">
-			@for (color of possibleColors(); track color) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedColor() === color"
-					(click)="onColorChange(color)"
-				>
-					{{ color }}
-				</div>
-			}
-		</div>
-	</div>
-	</div>
+  <app-item-selector title="Colors" [options]="possibleColors()" [(selectedOption)]="selectedColor" />
+</div>
 
 <div class="fonts-area">
-	<div class="item-selector">
+  <app-item-selector title="Fonts" [options]="possibleFonts()" [(selectedOption)]="selectedFont" />
+	<!-- <div class="item-selector">
 		<span>Font</span>
 		<div class="options-list">
 			@for (font of possibleFonts(); track font) {
@@ -29,11 +17,12 @@
 				</div>
 			}
 		</div>
-	</div>
+	</div> -->
 </div>
 
 <div class="sizes-area">
-	<div class="item-selector">
+  <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
+	<!-- <div class="item-selector">
 		<span>Size</span>
 		<div class="options-list">
 			@for (size of possibleSizes(); track size) {
@@ -46,7 +35,7 @@
 				</div>
 			}
 		</div>
-	</div>
+	</div> -->
 </div>
 
 <div class="editor-area">
