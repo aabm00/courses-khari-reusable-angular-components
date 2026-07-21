@@ -1,4 +1,4 @@
-import { Component, computed, input, model, TemplateRef } from '@angular/core';
+import { Component, computed, contentChild, input, model, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,6 +20,6 @@ export class ItemSelectorComponent {
   }
 
   // Template comming from parent
-  readonly itemTemplate = input<TemplateRef<any>>()
+  readonly itemTemplate = contentChild<TemplateRef<any>>(TemplateRef)
   readonly hasItemTemplate = computed(() => !!this.itemTemplate())
 }

@@ -1,28 +1,31 @@
 
-<!-- optional Template for Colors -->
-<ng-template #colorTemplate let-color>
-  <span [style.color]="color"> {{ color }}</span>
-</ng-template>
 
 <div class="colors-area">
   <app-item-selector
     title="Colors"
     [options]="possibleColors()"
-    [(selectedOption)]="selectedColor"
-    [itemTemplate]="colorTemplate" />
+    [(selectedOption)]="selectedColor">
+
+    <!-- optional Template for Colors -->
+    <ng-template let-color>
+      <span [style.color]="color"> {{ color }}</span>
+    </ng-template>
+
+  </app-item-selector>
 </div>
 
-<!-- optional Template for Fonts -->
-<ng-template #fontTemplate let-font>
-  <span [style.font-family]="font"> {{ font }}</span>
-</ng-template>
 
 <div class="fonts-area">
   <app-item-selector
     title="Fonts"
     [options]="possibleFonts()"
-    [(selectedOption)]="selectedFont"
-    [itemTemplate]="fontTemplate"/>
+    [(selectedOption)]="selectedFont">
+
+    <!-- optional Template for Fonts -->
+    <ng-template let-font>
+      <span [style.font-family]="font"> {{ font }}</span>
+    </ng-template>
+  </app-item-selector>
 </div>
 
 <div class="sizes-area">
