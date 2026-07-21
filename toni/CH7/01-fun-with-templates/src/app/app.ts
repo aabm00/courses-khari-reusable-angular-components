@@ -16,16 +16,4 @@ export class App {
   readonly selectedColor = signal(this.possibleColors()[0]);
   readonly selectedFont = signal(this.possibleFonts()[0]);
   readonly selectedSize = signal(this.possibleSizes()[0]);
-
-  // onColorChange(color: string): void {
-  //   this.selectedColor.set(color);
-  // }
-
-  // onFontChange(font: string): void {
-  //   this.selectedFont.set(font);
-  // }
-
-  // onSizeChange(size: string): void {
-  //   this.selectedSize.set(size);
-  // }
 }

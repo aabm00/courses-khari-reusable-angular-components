@@ -1,41 +1,32 @@
+
+<!-- optional Template for Colors -->
+<ng-template #colorTemplate let-color>
+  <span [style.color]="color"> {{ color }}</span>
+</ng-template>
+
 <div class="colors-area">
-  <app-item-selector title="Colors" [options]="possibleColors()" [(selectedOption)]="selectedColor" />
+  <app-item-selector
+    title="Colors"
+    [options]="possibleColors()"
+    [(selectedOption)]="selectedColor"
+    [itemTemplate]="colorTemplate" />
 </div>
 
+<!-- optional Template for Fonts -->
+<ng-template #fontTemplate let-font>
+  <span [style.font-family]="font"> {{ font }}</span>
+</ng-template>
+
 <div class="fonts-area">
-  <app-item-selector title="Fonts" [options]="possibleFonts()" [(selectedOption)]="selectedFont" />
-	<!-- <div class="item-selector">
-		<span>Font</span>
-		<div class="options-list">
-			@for (font of possibleFonts(); track font) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedFont() === font"
-					(click)="onFontChange(font)"
-				>
-					{{ font }}
-				</div>
-			}
-		</div>
-	</div> -->
+  <app-item-selector
+    title="Fonts"
+    [options]="possibleFonts()"
+    [(selectedOption)]="selectedFont"
+    [itemTemplate]="fontTemplate"/>
 </div>
 
 <div class="sizes-area">
   <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
-	<!-- <div class="item-selector">
-		<span>Size</span>
-		<div class="options-list">
-			@for (size of possibleSizes(); track size) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedSize() === size"
-					(click)="onSizeChange(size)"
-				>
-					{{ size }}
-				</div>
-			}
-		</div>
-	</div> -->
 </div>
 
 <div class="editor-area">
