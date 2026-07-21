@@ -8,6 +8,7 @@
 					[class.is-selected]="selectedOption() === option"
 					(click)="select (option)"
 				>
+        <!-- *ngTemplateOutlet is a structure directive because it stars with * -->
         @if( hasItemTemplate() ){
           <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
 

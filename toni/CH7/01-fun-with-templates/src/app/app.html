@@ -6,10 +6,20 @@
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
 
-    <!-- optional Template for Colors -->
-    <ng-template appItemTemplate let-color>
+    <!-- STRUCTURAL DIRECTIVE SYNTAX EQUIVALENCE:
+      The uncommented line with the asterisk ('*appItemTemplate="let color"') is exactly
+      equivalent to the commented '<ng-template appItemTemplate let-color>' block below it.
+
+      The asterisk (*) is simply syntactic sugar: at compile time, Angular intercepts it and
+      automatically rewrites the <span> into an identical invisible <ng-template> in memory,
+      passing the local variable 'let-color' to handle the item loop context dynamically.
+    -->
+
+    <!-- <ng-template appItemTemplate let-color>
       <span [style.color]="color"> {{ color }}</span>
-    </ng-template>
+    </ng-template> -->
+
+    <span *appItemTemplate= "let color" [style.color]= "color"> {{ color }}</span>
 
   </app-item-selector>
 </div>
@@ -20,11 +30,9 @@
     title="Fonts"
     [options]="possibleFonts()"
     [(selectedOption)]="selectedFont">
+      <!-- optional Template for Fonts -->
+      <span *appItemTemplate= "let font" [style.font-family]="font"> {{ font }}</span>
 
-    <!-- optional Template for Fonts -->
-    <ng-template appItemTemplate let-font>
-      <span [style.font-family]="font"> {{ font }}</span>
-    </ng-template>
   </app-item-selector>
 </div>
 
@@ -35,9 +43,7 @@
     [(selectedOption)]="selectedSize">
 
     <!-- optional Template for Sizes -->
-    <ng-template appItemTemplate let-size>
-      <span [style.font-family]="size"> {{ size }}</span>
-    </ng-template>
+      <span *appItemTemplate= "let size" [style.font-size]="size"> {{ size }}</span>
 
   </app-item-selector>
 </div>
