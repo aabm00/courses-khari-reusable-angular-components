@@ -1,6 +1,7 @@
 import { Component, computed, contentChild, input, model, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemTemplateDirective } from './item-template.directive';
+import { ItemContainerDirective } from './item-container.directive';
 
 
 @Component({
@@ -21,13 +22,20 @@ export class ItemSelectorComponent {
     this.selectedOption.set(option)
   }
 
-  // Template comming from parent
+  // Templates comming from parent
   readonly itemTemplateDirective = contentChild(ItemTemplateDirective)
   readonly hasItemTemplate = computed(() => !!this.itemTemplateDirective())
   readonly itemTemplate = computed(() => this.itemTemplateDirective()?.template ?? null)
+
+  readonly itemContainerDirective = contentChild(ItemContainerDirective)
+  readonly hasItemContainer = computed(() => !!this.itemContainerDirective())
+  readonly itemContainer = computed(() => this.itemContainerDirective()?.template ?? null)
+
+
 }
 
 export const ItemSelector = [
   ItemSelectorComponent,
-  ItemTemplateDirective
+  ItemTemplateDirective,
+  ItemContainerDirective
 ]

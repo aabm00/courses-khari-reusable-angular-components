@@ -6,6 +6,16 @@
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
 
+    <div
+      *appItemContainer= "let value; let selected= isSelected; let action= onSelect"
+      class="color-container"
+      [style.--color-option]="value"
+      [class.chosen]= "selected"
+      (click)= "action()"
+    >
+       {{ value }}
+    </div>
+
     <!-- STRUCTURAL DIRECTIVE SYNTAX EQUIVALENCE:
       The uncommented line with the asterisk ('*appItemTemplate="let color"') is exactly
       equivalent to the commented '<ng-template appItemTemplate let-color>' block below it.
@@ -19,7 +29,7 @@
       <span [style.color]="color"> {{ color }}</span>
     </ng-template> -->
 
-    <span *appItemTemplate= "let color" [style.color]= "color"> {{ color }}</span>
+    <!-- <span *appItemTemplate= "let color" [style.color]= "color"> {{ color }}</span> -->
 
   </app-item-selector>
 </div>
