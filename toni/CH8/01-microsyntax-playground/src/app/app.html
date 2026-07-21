@@ -4,4 +4,20 @@
 
 <div *myTimer></div>
 
-<div *myRepeat></div>
+
+<!-- ANGULAR MICROSYNTAX COMPILATION RULE:
+  The asterisk (*) triggers a micro-syntax parser that unwraps the expression into the <ng-template> below.
+  1. Implicit Binding: The first value '5' is bound directly to the primary input '[myRepeat]'.
+  2. Parameter Prefixing: Sub-properties 'start: 6' and 'skip: 2' are automatically mapped by CamelCase
+     concatenation to the directive's secondary inputs: '[myRepeatStart]' and '[myRepeatSkip]'.
+-->
+
+<div *myRepeat="5; start: 6; skip: 2"> Repeat me 5 times</div>
+
+<ng-template
+  [myRepeat]="5"
+  [myRepeatStart]="6"
+  [myRepeatSkip]="2"
+>
+  <div>Repeat me 5 times</div>
+</ng-template>
