@@ -1,4 +1,4 @@
-import { Directive, effect, input } from "@angular/core";
+import { Directive, effect, input, Signal } from "@angular/core";
 
 /** ANGULAR MICROSYNTAX INPUT NAMING RULE:
  * Secondary inputs MUST be named using the directive's selector as a prefix
@@ -13,12 +13,16 @@ import { Directive, effect, input } from "@angular/core";
  * - '$implicit': Maps directly to any anonymous 'let value' declaration in the HTML.
  * - Named keys ('index', 'first', 'last'): Map explicitly to variables declared with
  *   an assignment operator, such as 'let i = index', 'let isFirst = first', etc.
+ *
+ * $implicit and index must of type Signal because they change their value overtime
+ * first and last probably not because they don't change but we make them also Signals
+ * for consistency
  */
 export interface MyRepeatContext {
-  readonly $implicit: number // value (implicit)
-  readonly index: number
-  readonly first: boolean
-  readonly last: boolean
+  readonly $implicit: Signal<number> // value (implicit)
+  readonly index: Signal<number>
+  readonly first: Signal<boolean>
+  readonly last: Signal<boolean>
 }
 
 @Directive({

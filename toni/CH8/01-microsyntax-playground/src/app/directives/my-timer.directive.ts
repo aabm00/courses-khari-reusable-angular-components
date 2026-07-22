@@ -1,10 +1,10 @@
-import { Directive, effect, input } from "@angular/core";
+import { Directive, effect, input, Signal } from "@angular/core";
 
 export type TimerState = 'running' | 'done';
 
 export interface MyTimerContext {
-  readonly value: number; // Current count
-  readonly state: TimerState;
+  readonly value: Signal<number>; // Current count
+  readonly state: Signal<TimerState>;
 }
 
 @Directive({
