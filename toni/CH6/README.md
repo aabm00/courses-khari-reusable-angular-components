@@ -323,12 +323,17 @@ Explica de forma muy sencilla, incremental y con ejemplos cotidianos por qué ex
 
 Tanto los **Slots** como las **Templates** son herramientas de **Inversión de Control**. Sirven para lo mismo en apariencia: permitir que un componente padre inyecte código HTML dentro de un componente hijo.
 
-Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de oro para diferenciarlos es:* **Los Slots** sirven para pasar contenido **fijo y único** (se dibuja una sola vez).* **Las Templates** sirven para pasar una **receta repetible** (se puede dibujar cero, una o un millón de veces).
+Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de oro para diferenciarlos es:
+
+* **Los Slots** sirven para pasar contenido **fijo y único** (se dibuja una sola vez).
+* **Las Templates** sirven para pasar una **receta repetible** (se puede dibujar cero, una o un millón de veces).
+
 ---
 
 ## 1. La analogía de la vida real* 
 
-**Un Slot es como un "Portavasos" en tu coche**: El hueco está ahí de forma fija. Tú puedes meter un vaso de café o una lata de refresco desde fuera (el padre decide el contenido), pero en ese hueco solo cabe **un único objeto real a la vez**.* **Una Template es como un "Molde para Galletas"**: No le estás pasando al componente una galleta ya horneada; le estás pasando el molde. El componente hijo puede usar ese molde para fabricar **10, 100 o ninguna galleta**, dependiendo de cuánta hambre tenga (la lógica interna del hijo).
+* **Un Slot es como un "Portavasos" en tu coche**: El hueco está ahí de forma fija. Tú puedes meter un vaso de café o una lata de refresco desde fuera (el padre decide el contenido), pero en ese hueco solo cabe **un único objeto real a la vez**.
+* **Una Template es como un "Molde para Galletas"**: No le estás pasando al componente una galleta ya horneada; le estás pasando el molde. El componente hijo puede usar ese molde para fabricar **10, 100 o ninguna galleta**, dependiendo de cuánta hambre tenga (la lógica interna del hijo).
 
 ---
 
@@ -336,17 +341,17 @@ Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de o
 
 ### A. El número de renderizados (Multiplicación)* 
 
-**Slots (`ng-content` / Vue Slots)**: El contenido se procesa en el padre y viaja "vivo" al hijo. Si metes un `<slot>` dentro de un bucle `for`, la aplicación fallará o ignorará la repetición, porque un nodo físico del DOM no puede duplicarse a sí mismo en múltiples sitios a la vez.
+* **Slots (`ng-content` / Vue Slots)**: El contenido se procesa en el padre y viaja "vivo" al hijo. Si metes un `<slot>` dentro de un bucle `for`, la aplicación fallará o ignorará la repetición, porque un nodo físico del DOM no puede duplicarse a sí mismo en múltiples sitios a la vez.
 * **Templates (`ng-template`)**: El contenido viaja "dormido". El componente hijo puede usar ese bloque como una fábrica, clonándolo y estampándolo en el HTML tantas veces como elementos existan en un array.
 
 ### B. El flujo de los datos (Contexto)* 
 
-**Slots**: El contenido se evalúa en el padre. El hijo no puede enviarle datos "en caliente" al HTML que ha recibido.
+* **Slots**: El contenido se evalúa en el padre. El hijo no puede enviarle datos "en caliente" al HTML que ha recibido.
 * **Templates (`let-data`)**: Permiten comunicación de abajo hacia arriba. El hijo puede inyectarle información interna del sistema a la plantilla del padre antes de dibujarla (por ejemplo, decirle qué color o qué usuario se está procesando en esa línea exacta).
 
 ### C. Rendimiento (Renderizado Perezoso o Lazy)* 
 
-**Slots**: Aunque el contenido esté oculto (por ejemplo, dentro de un acordeón cerrado), el navegador **ya ha procesado y ejecutado todo su código HTML de fondo**.
+* **Slots**: Aunque el contenido esté oculto (por ejemplo, dentro de un acordeón cerrado), el navegador **ya ha procesado y ejecutado todo su código HTML de fondo**.
 * **Templates**: Al estar dormidas, **no consumen memoria ni procesan nada** hasta que el hijo decide despertarlas, optimizando drásticamente el rendimiento de la aplicación.
 
 ---
@@ -356,14 +361,23 @@ Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de o
 
 Una tarjeta de interfaz (`<app-card>`) tiene una estructura fija (un título y un cuerpo), pero el contenido de dentro cambia. Se dibuja **una sola vez**.
 
-* **Código del Hijo (`card.component.html`)**:```html
+* **Código del Hijo (`card.component.html`)**:
+
+```html
 <div class="border p-4 rounded-xl shadow bg-white">
   <!-- Dejamos los huecos fijos -->
-  <div class="font-bold border-b pb-2"><ng-content select="[card-title]" /></div>
-  <div class="pt-2"><ng-content /></div>
+  <div class="font-bold border-b pb-2">
+    <ng-content select="[card-title]" />
+  </div>
+
+  <div class="pt-2">
+    <ng-content />
+  </div>
 </div>
 ```
-* **Uso en el Padre (`app.html`)**:```html
+* **Uso en el Padre (`app.html`)**:
+
+```html
 <app-card>
   <h2 card-title>Mi Perfil</h2>
   <p>Este es el texto del cuerpo. Se renderiza una única vez directamente.</p>
@@ -493,64 +507,3 @@ const possibleColors = ref(['Morado', 'Verde', 'Cian'])
 | **Inyección de datos (Abajo ➡️ Arriba)** | `let-color="data"` | `#disenoColor="{ color }"` |
 | **Rendimiento "Lazy"** | La plantilla no se evalúa hasta el `createEmbeddedView` | El slot no se compila en el DOM virtual si la condición es falsa |
 
-
-
-
-
-
-
-
-
-
-
-
-# Diferencia entre Slots y ng-tempalte
-
-Es totalmente normal que te cueste ver la diferencia al principio, porque ambos mecanismos sirven para inyectar HTML desde fuera. Sin embargo, la diferencia clave no está en qué inyectan, sino en cómo se comporta el contenido y cuántas veces se puede dibujar.
-Para entenderlo de forma muy simple, piensa en esta regla de oro:
-
-* Los Slots (o ng-content) sirven para pasar un contenido fijo y único (se dibuja una sola vez) [21+].
-* Las Templates (o ng-template) sirven para pasar una fórmula o plantilla repetible (se puede dibujar cero, una o un millón de veces) [21+]. [1, 2] 
-
-Aquí tienes las 3 diferencias fundamentales que hacen que los componentes sean infinitamente más reutilizables con plantillas:
-------------------------------
-## 1. La Multiplicación (Cero, Uno o Muchos)
-
-* Con Slots (ng-content / Vue Slots): El contenido que pasas ya viene "vivo" y se dibuja exactamente una sola vez [21+]. Si metes un <slot> dentro de un bucle for, el navegador se volverá loco porque un elemento físico del DOM no puede duplicarse a sí mismo en varias filas.
-* Con Templates (ng-template): Pasas un bloque "dormido" (una receta). El componente hijo puede usar esa receta para clonar y dibujar el contenido tantas veces como quiera (por ejemplo, para cada elemento de una lista de 500 perfiles) sin que el código se rompa [21+]. [3] 
-
-------------------------------
-## 2. El Contexto Dinámico (De abajo hacia arriba)
-Esta es la ventaja más bestia de las plantillas.
-
-* Con Slots tradicionales: El contenido se evalúa en el padre. El hijo no puede alterarlo ni pasarle información interna de lo que está ocurriendo abajo.
-* Con Templates (ng-template + let-color): El hijo puede inyectarle datos de última hora a la plantilla del padre antes de dibujarla.
-* Ejemplo: Tu componente selector de colores no sabe qué color se está renderizando en cada fila. El hijo hace el bucle y le dice a la plantilla del padre: "Toma, en esta fila toca el color 'lime'". Y el padre, gracias a ese dato que viene de abajo, decide pintarlo en negrita, con un icono o con una clase de Tailwind v4 específica. Los slots normales no pueden hacer esto de forma nativa.
-
-------------------------------
-## 3. Rendimiento y "Renderizado Perezoso" (Lazy Rendering)
-
-* Con Slots: Aunque tu acordeón (<app-expander>) esté cerrado y el contenido esté oculto, el navegador ya ha procesado y renderizado todo el HTML del slot de fondo. Si ahí dentro hay un componente pesado que hace peticiones al servidor, esas peticiones se enviarán inmediatamente, aunque el usuario nunca abra el acordeón.
-* Con Templates: Como la plantilla está dormida, no consume memoria ni procesa nada hasta que el componente hijo decide despertarla. Si el acordeón está cerrado, el contenido directamente no existe ni se ejecuta, ahorrando muchísima batería y rendimiento en tu SPA.
-
-------------------------------
-## 📋 Tabla de decisión rápida
-
-| Si estás construyendo... | ¿Qué debes usar? | ¿Por qué? |
-|---|---|---|
-| Un botón con un icono y texto. | Slots / ng-content | Es contenido único, estático y simple [21+]. |
-| Una tarjeta (Card) o un Modal. | Slots / ng-content | Estructura fija (cabecera, cuerpo) que se dibuja una sola vez [21+]. |
-| Una Lista, Tabla o Grilla dinámica. | Templates / ng-template | Necesitas repetir la fila para cada dato y pasar el contexto (let-item) [21+]. |
-| Un menú desplegable pesado. | Templates / ng-template | Por rendimiento; solo se procesa el HTML cuando el usuario hace clic [21+]. |
-
-------------------------------
-## 🔗 Próxima Acción Proactiva
-Para cerrar este círculo de arquitectura y ver cómo cobra vida en tu pantalla:
-
-* ¿Quieres que añadamos el código en el constructor de tu directiva MyRepeat para ver cómo usa un <ng-template> para multiplicar un texto 5 veces usando este superpoder?
-
-Dime si pasamos a programar el bucle real.
-
-[1] [https://www.luisllamas.es](https://www.luisllamas.es/vuejs-que-son-los-slots/)
-[2] [https://developer.mozilla.org](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_templates_and_slots)
-[3] [https://profile.es](https://profile.es/blog/angular-templates-las-directivas-ng-template-ng-container-y-ngtemplateoutlet/)
