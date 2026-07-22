@@ -18,7 +18,7 @@ export class MyTimer {
   readonly myTimerStep = input(1)
 
 
-    constructor() {
+  constructor() {
     effect(() => {
       console.log(`My Timer interval,
         Timer = ${this.myTimer()},
@@ -29,4 +29,17 @@ export class MyTimer {
     })
   }
 
+  /**
+   * TEMPLATE CONTEXT GUARD (Strict HTML Type Checking):
+   *
+   * - Purpose: Binds the 'MyRepeatContext' interface directly to the HTML template.
+   *   Without this, variables like 'let value' or 'let i = index' would be typed
+   *   as 'any', losing autocomplete and risking silent runtime typos.
+   *
+   * - When to use: ALWAYS include this method when building custom structural
+   *   directives that export data back to the template using context variables.
+   */
+  static ngTemplateContextGuard(_: MyTimer, ctx: unknown): ctx is MyTimerContext {
+    return true;
+  }
 }
