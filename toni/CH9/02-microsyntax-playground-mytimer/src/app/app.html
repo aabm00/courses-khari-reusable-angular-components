@@ -1,0 +1,31 @@
+<h1>Structural Directives Sample</h1>
+<h2>My Timer</h2>
+<ul>
+  <div class="settings">
+
+    <div class="interval-setting">
+      <label>Interval</label>
+      <button (click)="decrementInterval()">-</button>
+      <span>{{ int() }}</span>
+      <button (click)="incrementInterval()">+</button>
+    </div>
+
+    <div class="step-setting">
+      <label>Step</label>
+      <button (click)="decrementStep()">-</button>
+      <span>{{ step() }}</span>
+      <button (click)="incrementStep()">+</button>
+    </div>
+
+  </div>
+
+  <div
+    *myTimer="
+      int(); from: 1; to: 10; step: step();
+      let v = value; let s = state"
+    class="content-presenter"
+  >
+    <h3>Timer Status: {{ s() }}</h3>
+    <h3>Timer Value: {{ v() }}</h3>
+  </div>
+</ul>

@@ -1,0 +1,195 @@
+:host {
+	display: block;
+	max-width: 720px;
+	margin: 40px auto;
+	padding: 28px;
+	border: 1px solid var(--color-panel-border);
+	border-radius: 24px;
+	background:
+		radial-gradient(circle at top right, var(--color-panel-glow), transparent 34%),
+		radial-gradient(circle at bottom left, var(--color-panel-glow-secondary), transparent 28%),
+		linear-gradient(180deg, var(--color-surface), var(--color-surface-muted));
+	box-shadow: 0 20px 48px var(--color-shadow-panel);
+	font-family: "Aptos", "Trebuchet MS", sans-serif;
+	color: var(--color-text);
+
+	h1 {
+		margin: 0 0 20px;
+		font-size: clamp(2rem, 5vw, 3rem);
+		line-height: 1.02;
+		letter-spacing: -0.04em;
+		color: var(--color-heading);
+	}
+
+	h2 {
+		margin: -8px 0 24px;
+		padding-bottom: 14px;
+		border-bottom: 1px solid var(--color-border);
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-text-subtle);
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.settings {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 16px;
+		margin: 0 0 22px;
+	}
+
+	.interval-setting,
+	.step-setting {
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr) 48px;
+		grid-template-areas:
+			"label label label"
+			"decrement value increment";
+		align-items: center;
+		gap: 12px;
+		padding: 16px;
+		border: 1px solid var(--color-card-border);
+		border-radius: 18px;
+		background: var(--color-card-bg);
+		box-shadow:
+			inset 0 1px 0 var(--color-card-highlight),
+			0 12px 28px var(--color-shadow-card);
+	}
+
+	label {
+		grid-area: label;
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-text-subtle);
+	}
+
+	button:first-of-type {
+		grid-area: decrement;
+	}
+
+	button:last-of-type {
+		grid-area: increment;
+	}
+
+	.interval-setting span,
+	.step-setting span {
+		grid-area: value;
+		display: grid;
+		place-items: center;
+		min-height: 72px;
+		padding: 10px 12px;
+		border: 1px solid var(--color-border);
+		border-radius: 14px;
+		background: linear-gradient(180deg, var(--color-surface), var(--color-surface-soft));
+		font-size: clamp(1.5rem, 3vw, 2.2rem);
+		font-weight: 700;
+		letter-spacing: -0.04em;
+		color: var(--color-heading);
+	}
+
+	button {
+		display: inline-grid;
+		place-items: center;
+		width: 48px;
+		height: 48px;
+		padding: 0;
+		border: 0;
+		border-radius: 14px;
+		background: linear-gradient(180deg, var(--color-primary), var(--color-primary-hover));
+		color: var(--color-primary-contrast);
+		font: inherit;
+		font-size: 1.4rem;
+		font-weight: 700;
+		cursor: pointer;
+		box-shadow: 0 10px 20px var(--color-button-shadow);
+		transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+	}
+
+	.step-setting button {
+		background: linear-gradient(180deg, var(--color-secondary), var(--color-secondary-hover));
+		box-shadow: 0 10px 20px var(--color-button-shadow-secondary);
+	}
+
+	button:hover {
+		transform: translateY(-1px);
+		filter: brightness(1.03);
+	}
+
+	button:active {
+		transform: translateY(0);
+		box-shadow: 0 6px 14px var(--color-shadow-soft);
+	}
+
+	button:focus-visible {
+		outline: 3px solid var(--color-panel-glow);
+		outline-offset: 3px;
+	}
+
+	.content-presenter {
+		display: grid;
+		gap: 12px;
+		padding: 22px;
+		border: 1px solid var(--color-success-border);
+		border-radius: 20px;
+		background: linear-gradient(180deg, var(--color-success-bg), var(--color-surface));
+		box-shadow: 0 14px 30px var(--color-shadow-soft);
+	}
+
+	.content-presenter h3 {
+		margin: 0;
+		padding: 14px 16px;
+		border-radius: 14px;
+		background: var(--color-overlay);
+		color: var(--color-success-text);
+		font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+		font-weight: 700;
+	}
+
+	@media (max-width: 720px) {
+		margin: 24px 16px;
+		padding: 22px;
+
+		.settings {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 520px) {
+		padding: 18px;
+
+		h2 {
+		margin: -4px 0 20px;
+		padding-bottom: 12px;
+		font-size: 0.88rem;
+		}
+
+		.interval-setting,
+		.step-setting {
+			grid-template-columns: 44px minmax(0, 1fr) 44px;
+			gap: 10px;
+			padding: 12px;
+		}
+
+		button {
+			width: 44px;
+			height: 44px;
+			border-radius: 12px;
+		}
+
+		.interval-setting span,
+		.step-setting span {
+			min-height: 64px;
+		}
+	}
+
+}
