@@ -45,12 +45,33 @@
 </div>
 
 
+<!-- MYIF
+
+ It has to work not only for boolean values but also for truty values
+-->
+
+<div *myIf="value() as ourVal">
+  {{ ourVal() }}
+</div>
+
+<!-- <div *ngIf="value() as ourVal">
+  {{ ourVal() }}
+</div> -->
+
+
 <!-- MYFOR -->
 
-<div *myFor></div>
+<div *myFor="
+  let item of items();
+  let i = index
+  let l = last
+  trackBy (i, j) => i">
+</div>
 
 
-<!-- MYIF -->
-
-<div *myIf></div>
-
+<div *ngFor="
+  let item of items();
+  let i = index;
+  let l = last;
+  trackBy (i, j) => i">
+</div>
