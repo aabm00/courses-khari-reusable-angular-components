@@ -23,6 +23,9 @@ export interface MyRepeatContext {
   readonly index: Signal<number>
   readonly first: Signal<boolean>
   readonly last: Signal<boolean>
+
+  // Inputs passed as context
+  readonly myRepeat: Signal<number>
 }
 
 @Directive({

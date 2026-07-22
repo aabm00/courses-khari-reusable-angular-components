@@ -1,5 +1,5 @@
 # Practice 12 - Microsyntax Playground
-# CH7 - VIDEO 77 - 84
+# CH7 - VIDEO 77 - 85
 
 In this exercise we will learn how Angular's **structural directive microsyntax** works by building the input and context API surface for four custom directives: `*myIf`, `*myFor`, `*myRepeat`, and `*myTimer`. We will **not** implement the runtime behavior of these directives - no `ViewContainerRef`, no `TemplateRef` stamping, no DOM manipulation. Instead, we focus entirely on understanding **how the star syntax (`*`) desugars**, how to define **inputs** that the microsyntax populates, how to declare **template context interfaces** that feed `let-` variables, how to upgrade context properties to **signals** for reactivity, how to use the **`as` keyword** via context properties named after the directive selector, how to provide **type safety** via `ngTemplateContextGuard`, and how to support **generic** type guards.
 

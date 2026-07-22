@@ -14,10 +14,10 @@
        let isFirst = first, let isLast = last'.
 -->
 
-<div *myRepeat="5 start 6 skip 2
-  let value let i = index let isFirst = first let isLast = last"
+<div *myRepeat="5 as total; start 6; skip 2;
+  let value; let i = index; let isFirst = first; let isLast = last"
   >
-  {{ i() }} - Repeating text value {{ value() }}, First: {{ isFirst() }}, Last {{ isLast() }}
+  {{ i() }} of {{ total() }}: Index {{ i() }} {{ isLast() ? '(End of Batch)' : '' }}
 </div>
 
 <ng-template
@@ -28,17 +28,20 @@
   let-i="index"
   let-isFirst="first"
   let-isLast="last"
+  let-total="myRepeat"
 >
-  <div> {{ i() }} - Repeating text value {{ value() }}, First: {{ isFirst() }}, Last {{ isLast() }} </div>
+  <div> {{ i() }} of {{ total() }}: Index {{ i() }} {{ isLast() ? '(End of Batch)' : '' }} </div>
 </ng-template>
 
 
 <!-- TIMER -->
 
-<div *myTimer="1000; from: 10; to: 0; step: -1
+<div *myTimer="times() as interval; from: 10 as startingPoint; to: 0; step: -1
   let count = value; let s = state"
 >
   Count: {{ count() }}, State: {{ s() }}
+  Interval: {{ interval()}} // It's an input that also is used in the context creating an alias
+  Starting point {{ startingPoint() }}
 </div>
 
 

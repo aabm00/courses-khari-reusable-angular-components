@@ -5,6 +5,10 @@ export type TimerState = 'running' | 'done';
 export interface MyTimerContext {
   readonly value: Signal<number>; // Current count
   readonly state: Signal<TimerState>;
+
+  // Inputs passed as context
+  readonly myTimer: Signal<number>
+  readonly myTimerFrom: Signal<number>
 }
 
 @Directive({
