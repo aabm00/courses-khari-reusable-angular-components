@@ -324,13 +324,37 @@ Explica de forma muy sencilla, incremental y con ejemplos cotidianos por qué ex
 Tanto los **Slots** como las **Templates** son herramientas de **Inversión de Control**. Sirven para lo mismo en apariencia: permitir que un componente padre inyecte código HTML dentro de un componente hijo.
 
 Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de oro para diferenciarlos es:* **Los Slots** sirven para pasar contenido **fijo y único** (se dibuja una sola vez).* **Las Templates** sirven para pasar una **receta repetible** (se puede dibujar cero, una o un millón de veces).
----## 1. La analogía de la vida real* **Un Slot es como un "Portavasos" en tu coche**: El hueco está ahí de forma fija. Tú puedes meter un vaso de café o una lata de refresco desde fuera (el padre decide el contenido), pero en ese hueco solo cabe **un único objeto real a la vez**.* **Una Template es como un "Molde para Galletas"**: No le estás pasando al componente una galleta ya horneada; le estás pasando el molde. El componente hijo puede usar ese molde para fabricar **10, 100 o ninguna galleta**, dependiendo de cuánta hambre tenga (la lógica interna del hijo).
----## 2. Diferencias Técnicas Fundamentales### A. El número de renderizados (Multiplicación)* **Slots (`ng-content` / Vue Slots)**: El contenido se procesa en el padre y viaja "vivo" al hijo. Si metes un `<slot>` dentro de un bucle `for`, la aplicación fallará o ignorará la repetición, porque un nodo físico del DOM no puede duplicarse a sí mismo en múltiples sitios a la vez.
+---
+
+## 1. La analogía de la vida real* 
+
+**Un Slot es como un "Portavasos" en tu coche**: El hueco está ahí de forma fija. Tú puedes meter un vaso de café o una lata de refresco desde fuera (el padre decide el contenido), pero en ese hueco solo cabe **un único objeto real a la vez**.* **Una Template es como un "Molde para Galletas"**: No le estás pasando al componente una galleta ya horneada; le estás pasando el molde. El componente hijo puede usar ese molde para fabricar **10, 100 o ninguna galleta**, dependiendo de cuánta hambre tenga (la lógica interna del hijo).
+
+---
+
+## 2. Diferencias Técnicas Fundamentales
+
+### A. El número de renderizados (Multiplicación)* 
+
+**Slots (`ng-content` / Vue Slots)**: El contenido se procesa en el padre y viaja "vivo" al hijo. Si metes un `<slot>` dentro de un bucle `for`, la aplicación fallará o ignorará la repetición, porque un nodo físico del DOM no puede duplicarse a sí mismo en múltiples sitios a la vez.
 * **Templates (`ng-template`)**: El contenido viaja "dormido". El componente hijo puede usar ese bloque como una fábrica, clonándolo y estampándolo en el HTML tantas veces como elementos existan en un array.
-### B. El flujo de los datos (Contexto)* **Slots**: El contenido se evalúa en el padre. El hijo no puede enviarle datos "en caliente" al HTML que ha recibido.
+
+### B. El flujo de los datos (Contexto)* 
+
+**Slots**: El contenido se evalúa en el padre. El hijo no puede enviarle datos "en caliente" al HTML que ha recibido.
 * **Templates (`let-data`)**: Permiten comunicación de abajo hacia arriba. El hijo puede inyectarle información interna del sistema a la plantilla del padre antes de dibujarla (por ejemplo, decirle qué color o qué usuario se está procesando en esa línea exacta).
-### C. Rendimiento (Renderizado Perezoso o Lazy)* **Slots**: Aunque el contenido esté oculto (por ejemplo, dentro de un acordeón cerrado), el navegador **ya ha procesado y ejecutado todo su código HTML de fondo**.* **Templates**: Al estar dormidas, **no consumen memoria ni procesan nada** hasta que el hijo decide despertarlas, optimizando drásticamente el rendimiento de la aplicación.
----## 3. Ejemplo Práctico: Cuándo usar cada uno### Caso de Uso 1: Un componente "Tarjeta" (Layout Fijo) ➡️ Usar SLOTSUna tarjeta de interfaz (`<app-card>`) tiene una estructura fija (un título y un cuerpo), pero el contenido de dentro cambia. Se dibuja **una sola vez**.
+
+### C. Rendimiento (Renderizado Perezoso o Lazy)* 
+
+**Slots**: Aunque el contenido esté oculto (por ejemplo, dentro de un acordeón cerrado), el navegador **ya ha procesado y ejecutado todo su código HTML de fondo**.
+* **Templates**: Al estar dormidas, **no consumen memoria ni procesan nada** hasta que el hijo decide despertarlas, optimizando drásticamente el rendimiento de la aplicación.
+
+---
+## 3. Ejemplo Práctico: Cuándo usar cada uno
+
+### Caso de Uso 1: Un componente "Tarjeta" (Layout Fijo) ➡️ Usar SLOTS
+
+Una tarjeta de interfaz (`<app-card>`) tiene una estructura fija (un título y un cuerpo), pero el contenido de dentro cambia. Se dibuja **una sola vez**.
 
 * **Código del Hijo (`card.component.html`)**:```html
 <div class="border p-4 rounded-xl shadow bg-white">
@@ -345,9 +369,14 @@ Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de o
   <p>Este es el texto del cuerpo. Se renderiza una única vez directamente.</p>
 </app-card>
 ```
-### Caso de Uso 2: Un "Selector de Ítems" (Bucle con Contexto) ➡️ Usar TEMPLATESImagina un componente que muestra una lista de opciones, pero quieres que el padre decida el diseño visual de cada fila basándose en el dato de esa fila. Se dibuja **muchas veces**.
 
-* **Código del Hijo (`item-selector.component.html`)**:```html
+### Caso de Uso 2: Un "Selector de Ítems" (Bucle con Contexto) ➡️ Usar TEMPLATES
+
+Imagina un componente que muestra una lista de opciones, pero quieres que el padre decida el diseño visual de cada fila basándose en el dato de esa fila. Se dibuja **muchas veces**.
+
+* **Código del Hijo (`item-selector.component.html`)**:
+
+```html
 <div class="flex flex-col gap-2">
   @for (option of options(); track option) {
     <div class="p-2 border rounded">
@@ -360,7 +389,9 @@ Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de o
   }
 </div>
 ```
-* **Uso en el Padre (`app.html`)**:```html
+* **Uso en el Padre (`app.html`)**:
+
+```html
 <app-item-selector [options]="['Morado', 'Verde', 'Cian']" [itemTemplate]="disenoColor">
   
   <!-- Pasamos la receta. El hijo la repetirá 3 veces e inyectará el texto en 'let-color' -->
@@ -372,13 +403,20 @@ Sin embargo, funcionan de manera radicalmente distinta por debajo. La regla de o
 
 </app-item-selector>
 ```
----## 4. Resumen Resumido: Guía de Decisión
+---
+
+## 4. Resumen Resumido: Guía de Decisión
+
 | ¿Qué estás construyendo? | Herramienta Ideal | Razón Principal |
 | :--- | :--- | :--- |
 | Botones, Modales, Barras de navegación, Tarjetas. | **Slots (`ng-content`)** | El contenido es único, estático y estructural. |
 | Tablas, Listas dinámicas, Grillas, Carruseles. | **Templates (`ng-template`)** | Necesitas multiplicar el HTML para cada fila y pasar el contexto (`let-item`). |
 | Secciones pesadas (Menús desplegables, pestañas ocultas). | **Templates (`ng-template`)** | Evita que el navegador procese el HTML hasta que el usuario haga clic (Rendimiento). |
----## 5. El mapa en Vue 3 (Equivalencia rápida)
+
+---
+
+## 5. El mapa en Vue 3 (Equivalencia rápida)
+
 Si vienes de Vue 3, no tienes que aprender conceptos nuevos; ya utilizas esta misma lógica bajo otros nombres:
 
 * **El equivalente de los Slots (`ng-content`)** son los **Slots normales o nombrados** (`<slot />` / `<slot name="title" />`).
