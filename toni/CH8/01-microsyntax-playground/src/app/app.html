@@ -2,7 +2,9 @@
 
 <div *myIf></div>
 
-<div *myTimer></div>
+<div *myTimer="1000; from: 10; to: 0; step: -1">
+  Timer
+</div>
 
 
 <!-- ANGULAR MICROSYNTAX COMPILATION RULE:
@@ -12,7 +14,9 @@
      concatenation to the directive's secondary inputs: '[myRepeatStart]' and '[myRepeatSkip]'.
 -->
 
-<div *myRepeat="5 start 6 skip 2"> Repeat me 5 times</div>
+<div *myRepeat="5 start 6 skip 2">
+  Repeat me 5 times
+</div>
 
 <!-- <ng-template
   [myRepeat]="5"
