@@ -1,0 +1,29 @@
+import { Directive, effect, input, Signal } from "@angular/core";
+
+export interface MyRepeatContext {
+    readonly $implicit: Signal<number>;
+    readonly index: Signal<number>;
+    readonly first: Signal<boolean>;
+    readonly last: Signal<boolean>;
+    readonly myRepeat: Signal<number>;
+}
+
+@Directive({
+    selector: '[myRepeat]'
+})
+export class MyRepeat {
+    readonly myRepeat = input.required<number>();
+
+    readonly myRepeatStart = input(0);
+
+    readonly myRepeatSkip = input(1);
+
+    constructor() {
+        effect(() => {
+        })
+    }
+
+    static ngTemplateContextGuard(_: MyRepeat, ctx: unknown): ctx is MyRepeatContext {
+        return true;
+    }
+}
