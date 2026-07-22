@@ -1,5 +1,5 @@
 # Practice 13 - Microsyntax Playground (`myIf`)
-# CH9 - VIDEO 88 - 92
+# CH9 - VIDEO 93 - 95
 
 In this exercise we will take the custom `*myIf` directive from the previous microsyntax playground and turn it into a real structural directive. We will start by learning how `TemplateRef` and `ViewContainerRef` work together to stamp out embedded views, then we will implement the actual runtime behavior of an `if` directive, and finally we will make the directive type-safe so Angular understands that values exposed through `as` are truthy inside the template.
 
