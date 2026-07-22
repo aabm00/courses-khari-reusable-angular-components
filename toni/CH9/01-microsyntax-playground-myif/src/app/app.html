@@ -1,0 +1,21 @@
+<h1>
+  Structural Directives Sample
+</h1>
+<ul>
+<li>Flag Value: {{flag()}}</li>
+<li>Object Value: {{obj() | json}}</li>
+</ul>
+<div class="tools">
+  <button (click)="toggleFlag()">Toggle Flag</button>
+  <button (click)="toggleObj()">Toggle Object</button>
+</div>
+
+<div *myIf="flag()" class="content-presenter">
+  The Flag is Shown
+</div>
+
+<div *myIf="obj() as item" class="content-presenter">
+  Object Values
+  X: {{item!.x}}
+  Y: {{item!.y}}
+</div>
