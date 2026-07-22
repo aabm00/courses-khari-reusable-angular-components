@@ -1,5 +1,12 @@
 import { Directive, effect, input } from "@angular/core";
 
+export type TimerState = 'running' | 'done';
+
+export interface MyTimerContext {
+  readonly value: number; // Current count
+  readonly state: TimerState;
+}
+
 @Directive({
     selector: '[myTimer]'
 })
