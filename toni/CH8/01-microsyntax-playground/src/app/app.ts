@@ -18,4 +18,5 @@ export class App {
   readonly value = signal<string | null>(null) // for myIf directive
 
   readonly items = signal(['a', 'b', 'c']) // for myFor directive
+  // readonly items = signal([{x:10, y:20}, {x:30, y:40}, {x:50, y:60}])
 }

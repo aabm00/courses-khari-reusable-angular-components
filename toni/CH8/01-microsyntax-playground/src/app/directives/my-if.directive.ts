@@ -1,19 +1,17 @@
 import { Directive, input } from "@angular/core";
 
-export interface MyIfContext {
+export interface MyIfContext<T> {
   // Inputs passed as context
-  readonly myIf: any
+  readonly myIf: T
 }
 
 
 @Directive({
     selector: '[myIf]'
 })
-export class MyIf {
+export class MyIf<T> {
 
-  readonly myIf = input.required<any>() // Because it must accept truty values not only booleans
-
-
+  readonly myIf = input.required<T>() // Because it must accept truty values not only booleans
 
 
   /**
@@ -26,7 +24,7 @@ export class MyIf {
    * - When to use: ALWAYS include this method when building custom structural
    *   directives that export data back to the template using context variables.
    */
-  static ngTemplateContextGuard(_: MyIf, ctx: unknown): ctx is MyIfContext {
+  static ngTemplateContextGuard<T>(_: MyIf<T>, ctx: unknown): ctx is MyIfContext<T> {
     return true;
   }
 
