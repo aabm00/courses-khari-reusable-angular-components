@@ -1,0 +1,19 @@
+<h1>Structural Directives Sample</h1>
+<h2>With Date Locale</h2>
+
+<section class="settings" aria-label="Repeat settings">
+  <div class="setting-card locale-setting">
+    <label for="locale-select">Locale</label>
+
+    <select
+      id="locale-select"
+      [(ngModel)]="selectedLocale"
+    >
+      @for (locale of locales(); track locale) {
+        <option [value]="locale">{{ locale }}</option>
+      }
+    </select>
+  </div>
+</section>
+
+<mat-calendar *withDateLocale="selectedLocale()" />
