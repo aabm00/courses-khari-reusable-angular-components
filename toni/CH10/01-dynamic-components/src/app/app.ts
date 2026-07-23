@@ -12,6 +12,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { SelectOption } from './models/select-option.model';
 import { SelectPickerComponent } from "./pickers/select-picker/select-picker";
 import { ListViewComponent } from './views/list-view/list-view';
+import { GridViewComponent } from './views/grid-view/grid-view';
 
 @Component({
   selector: 'app-root',
@@ -22,12 +23,22 @@ import { ListViewComponent } from './views/list-view/list-view';
 export class App {
   private readonly viewOptions = inject(VIEW_OPTIONS);
   readonly views = computed<SelectOption[]>(() => this.viewOptions.map(o => ({
-    label: o.label, 
+    label: o.label,
     value: o.value
   })));
 
   readonly selectedView = signal<string>('grid');
-  
+
+
+  readonly activeViewComponent = computed(() => {
+    const found = this.viewOptions.find(v => v.value === this.selectedView())
+    return found?.component ?? GridViewComponent
+  })
+
+  readonly activeViewInputs = computed(() => ({
+    items: this.products()
+  }))
+
 
   readonly products = signal(PRODUCTS);
   readonly selectedProduct = signal<Product | null>(null);
