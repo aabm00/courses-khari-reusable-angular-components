@@ -13,7 +13,11 @@ export class GridViewComponent {
   readonly items = input.required<Product[]>();
   readonly selection = output<Product>();
 
+  readonly viewActions = inject(VIEW_ACTIONS, {optional: true})
+
   onItemClick(product: Product) {
     this.selection.emit(product);
+
+    this.viewActions?.onItemSelect(product)
   }
 }

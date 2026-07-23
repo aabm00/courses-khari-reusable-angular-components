@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Product } from '../../models/product.model';
+import { VIEW_ACTIONS } from '../../tokens/view-actions.token';
 
 @Component({
   selector: 'app-cards-view',
@@ -13,8 +14,12 @@ export class CardsViewComponent {
 
   readonly selection = output<Product>();
 
+  readonly viewActions = inject(VIEW_ACTIONS, {optional: true})
+
 
   onItemClick(product: Product) {
     this.selection.emit(product);
+
+    this.viewActions?.onItemSelect(product)
   }
 }

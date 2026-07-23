@@ -10,7 +10,9 @@
     <!-- <app-list-view [items]="products()"
       (selection)="selectedProduct.set($event)" /> -->
 
-    <ng-container *ngComponentOutlet="activeViewComponent(); inputs: activeViewInputs()" />
+    <ng-container *ngComponentOutlet="activeViewComponent();
+      inputs: activeViewInputs(); injector: viewInjector";
+    />
   </main>
 
   <aside class="catalog-sidebar">

@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   inject,
+  Injector,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,8 @@ import { SelectOption } from './models/select-option.model';
 import { SelectPickerComponent } from "./pickers/select-picker/select-picker";
 import { ListViewComponent } from './views/list-view/list-view';
 import { GridViewComponent } from './views/grid-view/grid-view';
+import { VIEW_ACTIONS, ViewActions } from './tokens/view-actions.token';
+
 
 @Component({
   selector: 'app-root',
@@ -21,6 +24,9 @@ import { GridViewComponent } from './views/grid-view/grid-view';
   styleUrl: './app.scss',
 })
 export class App {
+
+  readonly injector = inject(Injector)
+
   private readonly viewOptions = inject(VIEW_OPTIONS);
   readonly views = computed<SelectOption[]>(() => this.viewOptions.map(o => ({
     label: o.label,
@@ -38,6 +44,18 @@ export class App {
   readonly activeViewInputs = computed(() => ({
     items: this.products()
   }))
+
+
+  readonly ViewActions: ViewActions = {
+    onItemSelect: (product) => this.selectedProduct.set(product)
+  }
+
+  readonly viewInjector = Injector.create({
+    parent: this.injector,
+    providers: [
+      {provide: VIEW_ACTIONS, useValue: this.ViewActions}
+    ]
+  })
 
 
   readonly products = signal(PRODUCTS);
