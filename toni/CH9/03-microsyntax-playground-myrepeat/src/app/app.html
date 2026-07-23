@@ -25,7 +25,7 @@
 </section>
 
 <ul class="results">
-  <li class="content-presenter" 
+  <li class="content-presenter"
     *myRepeat="
       count() as c;
       start: start();
@@ -35,11 +35,11 @@
       let f = first;
       let l = last
     "
-  [class.first]="f()" [class.last]="l()">
-    <span class="index">{{i()}}</span>
-    <span class="seperator">/</span>
-    <span class="count">{{c()}}</span>
-    <span class="value-label">Value</span>
-    <span class="value">{{v()}}</span>
+    [class.first]="f()" [class.last]="l()">
+      <span class="index">{{i()}}</span>
+      <span class="seperator">/</span>
+      <span class="count">{{c()}}</span>
+      <span class="value-label">Value</span>
+      <span class="value">{{v()}}</span>
   </li>
 </ul>

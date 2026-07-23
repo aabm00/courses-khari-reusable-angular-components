@@ -1,4 +1,5 @@
 # Practice 15 - Microsyntax Playground (`myRepeat`)
+# CH9 - VIDEO 98 - 99
 
 In this exercise we will take the custom `*myRepeat` directive from the microsyntax playground and turn it into a real structural directive that can stamp out a dynamic number of embedded views. We will start by wiring the directive up to `TemplateRef` and `ViewContainerRef`, then we will make the incremental DOM updates incremental while building a signal-based context for each repeated view.
 
