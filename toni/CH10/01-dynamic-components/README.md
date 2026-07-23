@@ -1,5 +1,5 @@
 # Practice 17 - Dynamic Components
-# CH10 - VIDEO 101 - 105
+# CH10 - VIDEO 101 - 109
 
 In this exercise we will make the product catalog more flexible by reading both the available views and the component that picks the active view from configuration. The application already has three possible view components:
 

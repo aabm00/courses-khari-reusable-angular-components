@@ -10,7 +10,7 @@ import { SelectPickerComponent } from './pickers/select-picker/select-picker';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    { provide: VIEW_PICKER, useValue: SelectPickerComponent },
+    { provide: VIEW_PICKER, useValue: TabPickerComponent }, // change between TabPickerComponent & SelectPickerComponent
     {
       provide: VIEW_OPTIONS,
       useValue: [

@@ -1,9 +1,14 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   Injector,
+  inputBinding,
   signal,
+  twoWayBinding,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from './models/product.model';
@@ -11,30 +16,31 @@ import { PRODUCTS } from './data/products.data';
 import { VIEW_OPTIONS } from './tokens/view-option.model';
 import { ProductDetailComponent } from './components/product-detail/product-detail';
 import { SelectOption } from './models/select-option.model';
-import { SelectPickerComponent } from "./pickers/select-picker/select-picker";
-import { ListViewComponent } from './views/list-view/list-view';
 import { GridViewComponent } from './views/grid-view/grid-view';
 import { VIEW_ACTIONS, ViewActions } from './tokens/view-actions.token';
+import { VIEW_PICKER } from './tokens/view-picker.token';
 
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, ListViewComponent, ProductDetailComponent, SelectPickerComponent],
+  imports: [CommonModule, ProductDetailComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
 
   readonly injector = inject(Injector)
-
   private readonly viewOptions = inject(VIEW_OPTIONS);
+  private readonly pickerType = inject(VIEW_PICKER);
+
+  readonly pickerVcr = viewChild.required('pickerAnchor', {read: ViewContainerRef} )
+
   readonly views = computed<SelectOption[]>(() => this.viewOptions.map(o => ({
     label: o.label,
     value: o.value
   })));
 
   readonly selectedView = signal<string>('grid');
-
 
   readonly activeViewComponent = computed(() => {
     const found = this.viewOptions.find(v => v.value === this.selectedView())
@@ -62,6 +68,15 @@ export class App {
   readonly selectedProduct = signal<Product | null>(null);
 
   constructor() {
+
+    effect(() => {
+      this.pickerVcr().createComponent(this.pickerType, {
+        bindings: [
+          inputBinding('options', this.views),
+          twoWayBinding('value', this.selectedView)
+        ]
+      })
+    })
   }
 }
 
