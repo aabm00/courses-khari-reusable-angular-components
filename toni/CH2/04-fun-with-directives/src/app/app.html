@@ -7,6 +7,30 @@
     applications and enable developers to create dynamic, interactive user interfaces.
   </p>
 
+  <!--
+    =====================================================================================
+    PATRÓN: EXPOSICIÓN DE API DE DIRECTIVA A LA PLANTILLA (exportAs)
+    =====================================================================================
+    * #abc="highlight": Vincula la variable local '#abc' a la INSTANCIA de 'HighlightDirective'
+      en lugar de vincularla al elemento nativo del DOM. Esto es posible porque la directiva
+      declara 'exportAs: "highlight"'.
+
+    * ¿Qué nos permite?: Acceder directamente a sus propiedades públicas y Signals, como
+      'abc.isActive()', para condicionar el HTML de la plantilla en tiempo real.
+
+    * ¿Qué pasaría si solo pusiéramos '#abc'?: La variable apuntaría al elemento primitivo
+      'HTMLHeadingElement' (el tag <h2>) y NO tendríamos acceso al estado de la directiva.
+      (Lo mismo aplica para '#xyz="highlight"' en <app-blank>, el cual intercepta la directiva
+      en lugar de la instancia del componente custom).
+    =====================================================================================
+  -->
+  <h2 highlight #abc="highlight">
+    Agenda
+    @if(abc.isActive()) {
+      !!!
+    }
+  </h2>
+
   <h2 highlight #abc="highlight">
     Agenda
     @if(abc.isActive()) {
