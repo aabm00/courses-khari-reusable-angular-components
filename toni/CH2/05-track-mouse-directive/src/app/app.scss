@@ -20,6 +20,17 @@
 
     }
 
+    // ==================================================================================
+    // INTERCEPCIÓN NATIVA DE ESTADOS DESDE ANGULAR
+    // ==================================================================================
+    // Las variables 'var(--mouse-x)' y 'var(--mouse-y)' NO se declaran en este archivo.
+    // Son inyectadas dinámicamente en el HTML por la directiva 'track-mouse' en forma de:
+    // style="--mouse-x: 45px; --mouse-y: 120px;"
+    //
+    // Al usar 'var()', el navegador recalcula el gradiente radial de forma nativa e
+    // instantánea cada vez que Angular actualiza el atributo style, puenteando el sistema
+    // tradicional de re-renderizado de componentes de Angular. Máxima optimización.
+    // ==================================================================================
     .second {
       background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), white, black);
     }

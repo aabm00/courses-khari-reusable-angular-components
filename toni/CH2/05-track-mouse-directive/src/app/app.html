@@ -1,3 +1,13 @@
+
+<!--
+  =======================================================================================
+  ESTRATEGIA 1: CONSUMO IMPERATIVO EN PLANTILLA (Enfoque basado en Componente)
+  =======================================================================================
+  * Usamos '#tracker="track-mouse"' para extraer la instancia de la directiva hacia el HTML.
+  * Movemos el nodo hijo (<div class="ball">) recalculando sus posiciones top/left en tiempo
+    de ejecución mediante la ejecución manual de los Signals 'tracker.x()' y 'tracker.y()'.
+-->
+
 <div class="field" track-mouse #tracker="track-mouse">
   <div class="ball"
       [style.left.px]="tracker.x() - 12.5"
@@ -5,6 +15,18 @@
   >
   </div>
 </div>
+
+
+<!--
+  =======================================================================================
+  ESTRATEGIA 2: CONSUMO DECLARATIVO EN CSS (Enfoque de Alto Rendimiento)
+  =======================================================================================
+  * NO necesitamos exportar la directiva ni usar referencias de plantilla (#).
+  * La directiva inyecta silenciosamente '--mouse-x' y '--mouse-y' como estilos en línea
+    dentro de este mismo elemento DIV.
+  * El archivo de estilos (SCSS) intercepta estas variables de manera nativa en el navegador,
+    delegando la carga del renderizado visual (el degradado) al motor gráfico del navegador.
+-->
 
 <div class="field second" track-mouse>
 </div>

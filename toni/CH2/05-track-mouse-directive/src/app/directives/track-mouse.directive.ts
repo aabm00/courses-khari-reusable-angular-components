@@ -6,11 +6,21 @@ import { clamp } from "./helpers";
 
 @Directive({
   selector: '[track-mouse]',
+
   host: {
-    // EVENT BINDING
+    // EVENT BINDING Escucha el movimiento del ratón de forma nativa en el elemento anfitrión.
     '(mousemove)': 'mouseMoved($event)',
 
-    // CSS VARS BINDING
+    // ======================================================================================
+    // PUENTE REACTIVO: ANGULAR A PROPIEDADES CUSTOM DE CSS (CSS VARIABLES)
+    // ======================================================================================
+    // Cada vez que los Signals x() o y() se actualizan, Angular muta DIRECTAMENTE los estilos
+    // en línea del elemento HTML anfitrión, creando o actualizando las variables CSS nativas
+    // '--mouse-x' y '--mouse-y'.
+    //
+    // Esto expone el estado del componente al árbol de estilos (CSS/SCSS) sin que el CSS
+    // tenga que saber absolutamente nada sobre TypeScript, Signals o Angular.
+    // ======================================================================================
     '[style.--mouse-x.px]': 'x()',
     '[style.--mouse-y.px]': 'y()'
 
