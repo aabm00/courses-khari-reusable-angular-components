@@ -4,6 +4,20 @@
   <a routerLink="page-c" routerLinkActive="selected">Page C</a>
 </nav> -->
 
+<!--
+  =======================================================================================
+  INTERFAZ DECLARATIVA SIMPLIFICADA (Clean Template Pattern)
+  =======================================================================================
+  * ANTES (Ver bloque comentado arriba):
+    Obligaba a repetir 'routerLink' y 'routerLinkActive="selected"' en cada tag <a>.
+    Si mañana cambia el nombre de la clase de estilos, habría que actualizar todas las líneas.
+
+  * AHORA:
+    Solo usamos 'myLink="ruta"'. La directiva interna se encarga de inyectar el redireccionamiento
+    y de aplicar de forma centralizada la clase '.selected' (gestionada en el constructor de TypeScript).
+    Esto reduce el ruido visual en el HTML y centraliza el mantenimiento.
+  =======================================================================================
+-->
 <nav>
   <a myLink="page-a">Page A</a>
   <a myLink="page-b">Page B</a>
