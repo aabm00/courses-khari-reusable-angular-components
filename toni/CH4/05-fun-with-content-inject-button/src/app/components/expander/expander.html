@@ -5,7 +5,18 @@
 </div>
 
 <div class="toggle-area">
+  <!--
+    =======================================================================================
+    DELEGACIÓN DE CONTROL COMPLETA VÍA SLOT SELECTOR
+    =======================================================================================
+    * Hito arquitectónico: El antiguo botón `<button (click)="toggle()">` HA SIDO ELIMINADO.
 
+    * ¿Qué hacemos ahora?: Colocamos un `<ng-content select="[expander-toggle]" />`.
+      Le abrimos una slot al botón que el padre maquetó externamente. El expander ya no es
+      dueño del botón, ni de su click, ni de sus iconos. Solo pone la zona física del layout
+      para que el botón proyectado se dibuje ahí dentro de forma armónica.
+    =======================================================================================
+  -->
   <ng-content select="[expander-toggle]" />
 
   <!-- <button (click)="toggle()">

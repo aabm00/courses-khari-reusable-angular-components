@@ -1,3 +1,23 @@
+
+<!--
+  =======================================================================================
+  📐 INVERSIÓN DE CONTROL DEL DISPARADOR (Trigger IoC Pattern)
+  =======================================================================================
+  * ANTES (Rígido):
+    El botón de más/menos (+/-) estaba atrapado dentro del código oculto del expander.
+    No podíamos cambiarle el color, ni ponerle un icono diferente, ni moverlo de sitio.
+
+  * AHORA (Senior Flex):
+    Sacamos el botón al HTML del cliente. Como puedes ver aquí, el botón ahora contiene un
+    componente <app-icon name="chevron" />. Podríamos cambiar este botón por un texto o una
+    imagen de Tailwind sin tocar jamás el componente expander.
+
+  * ¿Cómo interactúa?:
+    Le añadimos el atributo marcador 'expander-toggle'. Este atributo cumple una doble función:
+      1. Le avisa al expander en qué slot debe renderizarlo visualmente.
+      2. Activa la directiva TypeScript 'ExpanderToggle' para inyectar el comportamiento de click.
+  =======================================================================================
+-->
 <app-expander>
 
   <span expander-header>
@@ -5,12 +25,7 @@
     What is Content Projection?
   </span>
 
-  <!--
-   ADVANCED COMPONENT DECOUPLING PATTERN:
-   Instead of hardcoding the trigger button inside the expander, we project it from here.
-   The 'expander-toggle' directive bridges the projected button and the expander's internal
-   state, allowing us to design ANY custom button layout without changing the child component.
-  -->
+  <!-- Botón totalmente personalizable inyectado desde fuera del ecosistema del hijo -->
   <button expander-toggle>
     <app-icon name="chevron" />
   </button>
