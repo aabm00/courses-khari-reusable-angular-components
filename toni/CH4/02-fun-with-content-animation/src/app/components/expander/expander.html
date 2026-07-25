@@ -20,9 +20,22 @@
   </button>
 </div>
 
+
 <!--
-  animate.leave="leaves": Delays DOM removal during exit to let the 300ms grid collapse finish
-  animate.enter="enters": Matches entry duration with the grid expansion timeline
+  =======================================================================================
+  NUEVA API NATIVA DE ANIMACIÓN EN PLANTILLAS DE ANGULAR 22
+  =======================================================================================
+  * ¿Qué son 'animate.leave' y 'animate.enter'?:
+    Son atributos integrados nativamente en el core de Angular 22. Reemplazan las antiguas
+    configuraciones TypeScript pesadas por un enlace declarativo directo en las etiquetas.
+
+  * ¿Cómo funcionan y cómo se conectan?:
+    - Al escribir 'animate.leave="leaves"', le ordenamos a Angular: "Cuando destruyas esta
+      sección debido al @if, no la borres inmediatamente; aplícale la clase CSS '.leaves'
+      y espera a que sus transiciones o keyframes finalicen antes de purgarla del DOM".
+    - Al escribir 'animate.enter="enters"', Angular aplica la clase '.enters' en el microsegundo
+      exacto en que el elemento es renderizado por primera vez en la pantalla.
+  =======================================================================================
 -->
 @if(isExpanded()){
   <div class="content-area"

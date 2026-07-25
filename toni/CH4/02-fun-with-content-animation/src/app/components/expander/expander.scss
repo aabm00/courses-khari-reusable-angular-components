@@ -6,6 +6,13 @@
 
   display: grid;
   grid-template-columns: 1fr auto;
+  /**
+   * TÉCNICA MAESTRA CSS: ANIMACIÓN COGNITIVA DE ALTURA DINÁMICA
+   * Animar 'height: auto' tradicionalmente degradaba el rendimiento o fallaba en CSS puro.
+   * Al utilizar CSS Grid, definimos que la fila del contenido use fracciones de espacio ('1fr')
+   * y aplicamos una transición sobre 'grid-template-rows'. Esto delega el cálculo del tamaño
+   * a la GPU de forma fluida.
+   */
   grid-template-rows: min-content 1fr;
   grid-template-areas:
     'header toggle'
@@ -16,10 +23,15 @@
   border: 1px solid var(--expander-border-color);
   box-shadow: 0 2px 6px var(--expander-shadow);
   background: #fff;
+  // CRONOLOGÍA MATCH PARTE A: Modificación estructural de la caja exterior fija en 300ms
   transition: grid-template-rows 300ms; // Smoothly animates row height transitions between 0fr and 1fr
 
+  /**
+   * ESTADO COLAPSADO: Forzamos la fila del contenido a '0fr'. El navegador recalcula y
+   * encoge la altura física a 0px de forma completamente nativa y matemática.
+   */
   &.collapsed {
-    grid-template-rows: min-content 0fr // Forces the content row to collapse to zero physical height
+    grid-template-rows: min-content 0fr // Aplasta el espacio asignado a la fila a 0px absolutos
   }
 }
 
@@ -46,24 +58,42 @@
   display: flex;
   flex-direction: column;
   padding: 14px 20px;
-  min-height: 0; // CRUCIAL: Allows grid children to overflow and shrink below their natural size
-
+  /**
+   * PROPIEDAD CRÍTICA DE FLUJO: 'min-height: 0'
+   * En CSS Grid, un contenedor hijo se niega por defecto a medir menos de lo que ocupa su
+   * contenido textual interno. Si omites 'min-height: 0', cuando el componente intente
+   * colapsar a 0fr, el texto se desbordará visualmente rompiendo el colapso del acordeón.
+   */
+  min-height: 0;
+  // CRONOLOGÍA MATCH PARTE B: Clases inyectadas automáticamente por la API nativa de Angular 22
   &.leaves {
-    animation: delay 300ms; // Keeps element in DOM for 300ms so the fade-out keyframe can play
+    // Ejecuta los keyframes de CSS estándar llamados 'delay' durante 300ms exactos (Fase Cierre)
+    animation: delay 300ms;
   }
   &.enters {
-    animation: delay 300ms reverse; // Reverses the keyframe to smoothly fade-in the text on click
+    // Al abrir, ejecuta la misma animación pero en sentido opuesto ('reverse') (Fase Apertura)
+    animation: delay 300ms reverse;
   }
 }
 
-// Controls the opacity and padding need to be 0px to avoid jumps in the transition, because transitions
-// only apply to content and not to padding
+/**
+ * =========================================================================================
+ * ELIMINACIÓN DE SALTOS DE INTERFAZ (Layout Jumps CSS Keyframes)
+ * =========================================================================================
+ * Las transiciones de tracks de Grid reducen a cero la celda, pero las propiedades internas
+ * del hijo como el padding vertical ('padding-block') permanecen intactas. Si no las anulamos,
+ * el acordeón se cerrará pero dejará un pequeño escalón visual bruscamente al final.
+ *
+ * Al llegar al frame final (100%), este bloque neutraliza tanto la opacidad como el padding,
+ * mimetizándose con la desaparición física controlada por el core de Angular 22.
+ * =========================================================================================
+ */
 @keyframes delay {
   0% {
     opacity: 1;
   }
 
-    100% {
+  100% {
     opacity: 0;
     padding-block: 0px;
   }
