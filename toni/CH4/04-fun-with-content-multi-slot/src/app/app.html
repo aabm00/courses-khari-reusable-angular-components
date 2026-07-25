@@ -1,4 +1,21 @@
 
+<!--
+  =======================================================================================
+  PATRÓN: CONSUMO DE PROYECCIÓN MULTI-SLOT CON SEMÁNTICA INDEPENDIENTE
+  =======================================================================================
+  * ¿Cómo sabe Angular qué parte va a cada sitio?:
+    - Al colocar el atributo 'expander-header' dentro del tag <span>, el motor de Angular
+      lo intercepta y lo desvía automáticamente hacia el slot correspondiente del hijo
+      (<ng-content select="[expander-header]" />).
+    - Las etiquetas <h2> y <p> no tienen ningún atributo marcador. Por descarte, Angular
+      las agrupa y las envía juntas al slot genérico por defecto (<ng-content />).
+
+  * Ventaja de Accesibilidad (A11y) y SEO:
+    El componente hijo no nos impone usar etiquetas fijas (como <h1> o <div>) en la cabecera.
+    Aquí decidimos usar un <span> para meter un icono junto al texto, manteniendo el control
+    total de la estructura HTML desde el archivo padre.
+  =======================================================================================
+-->
 <app-expander>
   <span expander-header>
     <app-icon name="projection" />

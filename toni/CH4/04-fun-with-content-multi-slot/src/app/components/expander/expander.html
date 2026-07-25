@@ -4,6 +4,15 @@
   Instead, use a custom attribute selector like '[expander-header]'. This allows the parent component
   to project any semantic tag (h2, h3, div, span) by simply adding the attribute 'expander-header'.
 -->
+<!--
+  =======================================================================================
+  FILTRADO DE SLOTS MEDIANTE SELECTORES CSS (<ng-content select="...">)
+  =======================================================================================
+  * 'select="[expander-header]"': Utiliza un selector de atributo CSS estándar. No busca
+    una etiqueta física; busca cualquier elemento que tenga escrito el atributo 'expander-header'.
+    Esto evita romper la semántica HTML del consumidor y permite inyectar layouts complejos
+    (como componentes <app-icon> internos) dentro del bloque de la cabecera.
+-->
 <div class="header-area">
   <ng-content select="[expander-header]" />
 </div>
@@ -18,6 +27,12 @@
   </button>
 </div>
 
+<!--
+  * <ng-content /> (Slot Genérico / Catch-All):
+    Funciona como un embudo de descarte. Todo el contenido que el padre envíe y que NO
+    coincida con el selector '[expander-header]' caerá automáticamente aquí cuando el
+    bloque condicional '@if' sea verdadero.
+-->
 @if (isExpanded()) {
   <div class="content-area" animate.leave="leaves" animate.enter="enters">
     <ng-content />

@@ -1,22 +1,21 @@
+
 <!--
- La nomenclatura [attr.d] es obligatoria porque la letra d es un atributo exclusivo de las etiquetas
- de gráficos vectoriales SVG (<path>), y no es una propiedad estándar del DOM de JavaScript.
+  =======================================================================================
+  PUENTE NATIVO HACIA ATRIBUTOS GRÁFICOS VECTORIALES ([attr.d])
+  =======================================================================================
+  * ¿Por qué es obligatorio usar el prefijo 'attr.'?:
+    La letra 'd' es un atributo físico exclusivo de las etiquetas vectoriales SVG (<path>).
+    No existe ninguna propiedad nativa en el modelo de objetos JavaScript del navegador llamada
+    'element.d'.
 
-Aquí tienes la explicación exacta:
+    Si intentaras escribir '[d]="pathData()"', Angular buscaría la propiedad en JavaScript,
+    fallaría y lanzaría un error en la consola. Al anteponer 'attr.', le ordenas a Angular:
+    "Busca el atributo HTML físico real en el nodo del navegador y escribe las coordenadas
+    del vector directamente ahí".
 
-¿Por qué lleva los corchetes [...]?
-Le dice a Angular que el valor de la derecha (pathData()) es una
-señal viva de TypeScript que debe evaluar, no un texto fijo.
-
-¿Por qué lleva el prefijo attr.?
-Si escribieras solo [d], Angular buscaría una propiedad interna de JavaScript llamada element.d dentro
-del objeto del navegador, la cual no existe. Al anteponer attr., le ordenas explícitamente a Angular:
-"Busca el atributo HTML físico real en el nodo del navegador y escribe la coordenada del vector ahí
-directamente".
-
-Por lo tanto, no es la nomenclatura de una directiva tuya, sino el mecanismo nativo que usa Angular
-para poder modificar atributos físicos del HTML (como attr.d, attr.colspan o attr.aria-label) que no
-tienen una propiedad equivalente en JavaScript.
+  * ¿Por qué lleva corchetes [...]?:
+    Le dice a Angular que el valor de la derecha ('pathData()') es un Signal vivo de TypeScript
+    que debe ser evaluado y actualizado en tiempo real, en lugar de tratarlo como texto estático.
 -->
 
 <svg viewBox="0 0 24 24">

@@ -1,5 +1,4 @@
 
-
 /** Fallback path rendered when a requested icon name is not in the registry. */
 export const UNKNOWN_ICON =
   'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z';
@@ -15,8 +14,16 @@ export const ICONS = {
 } as const;
 
 /**
- * export type KnownIcon = keyof typeof ICONS;: Crea un tipo personalizado de TypeScript que
- * extrae de forma automática las claves de tu diccionario. El resultado es equivalente a escribir:
- *  type KnownIcon = 'projection' | 'cogwheel' | 'modularity' | 'chevron';
+ * =========================================================================================
+ * EXTRACCIÓN DE TIPADO ESTRICTO DINÁMICO (TypeScript Type Inference)
+ * =========================================================================================
+ * 'export type KnownIcon = keyof typeof ICONS;'
+ *
+ * En lugar de picar a mano un tipo manual que mantenga los nombres de los iconos como:
+ * type KnownIcon = 'projection' | 'cogwheel' | 'modularity' | 'chevron';
+ *
+ * Le pedimos a TypeScript que analice el objeto físico 'ICONS' y extraiga sus propiedades (keys)
+ * automáticamente. Si mañana añades un icono nuevo al diccionario, el sistema de tipado se
+ * actualizará solo en toda la aplicación sin que tengas que tocar este tipo. Autonomía Senior total.
  */
 export type KnownIcon = keyof typeof ICONS;

@@ -21,6 +21,4 @@ export class ExpanderComponent {
     this.#isExpanded.update(v => !v);
   }
 
-
-
 }
