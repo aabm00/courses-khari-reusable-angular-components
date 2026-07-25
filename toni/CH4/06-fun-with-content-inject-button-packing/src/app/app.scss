@@ -28,6 +28,12 @@ button[expander-toggle] {
     font-size: 0.6em;
   }
 
+  /**
+   * ANIMACIÓN DE TRANSICIÓN VECTORIAL ORQUESTADA POR EL PADRE
+   * Gracias a que inyectamos la clase '.expanded' leyendo la referencia '#ex.isExpanded()',
+   * el SCSS del padre puede animar la rotación del icono de forma sedosa con una transición
+   * nativa de 0.3 segundos, liberando al componente expander de cualquier lógica de animación gráfica.
+   */
   app-icon {
     transition: transform 0.3s;
 

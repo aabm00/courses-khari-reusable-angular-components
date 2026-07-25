@@ -1,14 +1,27 @@
 
 <button expander-toggle>Hello</button>
 
+<!--
+  =======================================================================================
+  🧩 LECTURA DE ESTADO DESDE EL PADRE (Parent-Side State Interception)
+  =======================================================================================
+  * ¿Por qué usamos aquí '#ex="abc"' o '#ex2'? (Diferencia con el antipatrón anterior):
+    Anteriormente descartamos las variables de referencia para CONTROLAR el expander (para hacerle toggle)
+    porque duplicaba código. Sin embargo, usarlas para LEER su estado reactivo es una práctica Senior excelente.
+
+  * CASO ACORDEÓN 1 (#ex):
+    Necesitamos que la flecha del icono (<app-icon name="chevron">) rote 180 grados si el acordeón
+    está abierto. Como el icono está en el código del padre, usamos '[class.expanded]="ex.isExpanded()"'
+    para escuchar el Signal público de lectura del hijo y aplicarle la clase CSS dinámicamente.
+
+  * CASO ACORDEÓN 3 (#ex2):
+    Queremos que el texto cambie dinámicamente entre "More..." y "Less..." según el estado de apertura.
+    Usamos el bloque condicional '@if(ex2.isExpanded())' apuntando a la referencia para renderizar
+    el string correcto de forma reactiva desde el contexto del padre.
+  =======================================================================================
+-->
 <app-expander #ex>
 
-  <!--
-   ADVANCED COMPONENT DECOUPLING PATTERN:
-   Instead of hardcoding the trigger button inside the expander, we project it from here.
-   The 'expander-toggle' directive bridges the projected button and the expander's internal
-   state, allowing us to design ANY custom button layout without changing the child component.
-  -->
   <button expander-toggle>
     <app-icon name="chevron" [class.expanded]="ex.isExpanded()" />
   </button>
@@ -35,12 +48,14 @@
   </p>
 </app-expander>
 
+
 <app-expander>
   <span expander-header>
     <app-icon name="cogwheel" />
+    Creating Customizable Components
+  </span>
 
-    Creating Customizable Components</span
-  >
+
   <h2>Beyond Inputs</h2>
   <p>
     Instead of relying on <strong>inputs for every visual variation</strong>, a component can expose
@@ -55,6 +70,7 @@
     <strong>truly open for extension</strong> while remaining closed for modification.
   </p>
 </app-expander>
+
 
 <app-expander #ex2>
 
@@ -72,6 +88,7 @@
     <app-icon name="modularity" />
     Composite Components</span
   >
+
   <h2>Composition Over Configuration</h2>
   <p>
     Composite components take reusability further by
