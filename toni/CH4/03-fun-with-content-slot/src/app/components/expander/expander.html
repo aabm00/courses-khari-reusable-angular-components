@@ -17,6 +17,21 @@
     animate.leave="leaves"
     animate.enter="enters"
   >
+    <!--
+      =======================================================================================
+      EL SUPERPODER DE LA PROYECCIÓN DE CONTENIDO (<ng-content />)
+      =======================================================================================
+      * ¿Qué es este tag?: Es un "Slot" o marcador de posición vacío. Le dice a Angular:
+        "Cualquier HTML, componente o directiva que el padre ponga dentro de las etiquetas
+        <app-expander>...</app-expander>, interceptalo e inyéctalo aquí en tiempo de ejecución".
+
+      * ¿Por qué destruye el "Props-Hell" y la rigidez anterior?:
+        Antes, con el input 'content', estábamos limitados a strings de texto plano. Si queríamos
+        añadir un icono, texto en negrita o un enlace, teníamos que inventar mil inputs nuevos.
+        Con <ng-content />, el componente se vuelve INFINITAMENTE FLEXIBLE: delega la responsabilidad
+        del diseño interior al consumidor, abstrayéndose por completo de lo que va a mostrar.
+      =======================================================================================
+    -->
     <ng-content />
   </div>
 }

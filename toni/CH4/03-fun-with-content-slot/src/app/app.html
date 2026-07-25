@@ -1,9 +1,22 @@
 <!--
-  PROJECTED CONTENT SCOPING RULE:
-  Any content projected here via <ng-content /> belongs to the parent (app.html) scope.
-  Therefore, its styles and Tailwind classes must be controlled and managed from this file
-  (the parent), and not from the child component (ExpanderComponent) that hosts the slot.
+  =======================================================================================
+  🚨 LA REGLA SÚPER CRÍTICA DEL CONTEXTO (Projected Content Scoping Rule)
+  =======================================================================================
+  Una duda habitual de los Juniors es: "¿Dónde escribo los estilos CSS o las clases de Tailwind
+  de las etiquetas (<h2>, <p>, <strong>) que estoy metiendo dentro del <app-expander>?"
+
+  REGLA DE CONTEXTO: Todo el contenido proyectado SÍGUE PERTENECIENDO AL PADRE ('app.html').
+  Por lo tanto:
+  1. Su estado reactivo y sus variables se evalúan en el contexto del padre.
+  2. Sus clases CSS y sus estilos se controlan desde el archivo del padre ('app.scss').
+
+  El componente hijo ('ExpanderComponent') NO puede aplicar estilos directamente a estas
+  etiquetas mediante su propio 'expander.scss' debido a la encapsulación nativa de Angular,
+  a menos que use el pseudo-selector avanzado ':ng-deep'. Por diseño limpio, el diseño de
+  lo que se proyecta se decide en el archivo donde se escribe.
+  =======================================================================================
 -->
+
 <app-expander header="What is Content Projection?">
   <h2>The Core Idea</h2>
   <p>
