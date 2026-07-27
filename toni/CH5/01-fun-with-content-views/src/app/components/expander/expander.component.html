@@ -1,6 +1,7 @@
 <div class="header-area">
   <ng-content select="[expander-header]" />
 </div>
+
 <div class="toggle-area">
   @if (hasCustomToggle()) {
     <ng-content select="[expander-toggle]" />
@@ -14,6 +15,7 @@
     </button>
   }
 </div>
+
 @if (isExpanded()) {
   <div class="content-area" animate.leave="leaves" animate.enter="enters">
     <ng-content />

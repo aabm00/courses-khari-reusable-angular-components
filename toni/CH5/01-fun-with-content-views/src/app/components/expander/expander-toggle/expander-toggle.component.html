@@ -1,3 +1,24 @@
+<!--
+  =======================================================================================
+  🎭 PATRÓN: PROYECCIÓN CONDICIONAL ANIDADA (Nested Selective Content Views)
+  =======================================================================================
+  Este archivo representa el núcleo del concepto "Content Views". El botón ya no es un cascarón
+  de texto plano; es un componente inteligente con su propia plantilla que segmenta el contenido:
+
+  - `@if(isExpanded())`: Lee en tiempo real el Signal derivado del padre. Si está abierto,
+    abre la compuerta y renderiza únicamente el nodo marcado con el atributo '[expander-open]' (ej: "Less...").
+
+  - `@else`: Si está cerrado, intercepta y renderiza el nodo '[expander-closed]' (ej: "More...").
+
+  - `<ng-content />`: Slot genérico de escape por si el consumidor decide proyectar contenido
+    estático ordinario (como un texto fijo o un icono de flecha).
+
+  * BENEFICIO ELITE: Se erradica por completo la necesidad de declarar variables locales de
+    plantilla (#ex="expander") en el HTML principal del negocio para alternar textos, devolviendo
+    la autonomía absoluta a la infraestructura del botón.
+  =======================================================================================
+-->
+
 @if(isExpanded()) {
     <ng-content select="[expander-open]"/>
 } @else {

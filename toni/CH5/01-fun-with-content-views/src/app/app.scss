@@ -9,14 +9,43 @@
     width: 400px;
   }
 
+  /**
+   * =======================================================================================
+   * 🏗️ ENTORNO ESTRUCTURAL Y BARRERA CONTEXTUAL (.grayscale)
+   * =======================================================================================
+   * Esta clase no es un simple layout Flexbox para ordenar los acordeones en vertical.
+   * Actúa como un perímetro delimitador de diseño.
+   *
+   * Los componentes '<app-expander>' que caigan aquí dentro activarán de forma autónoma
+   * su hoja de estilos gris mediante ':host-context(.grayscale)'. Pero para que la armonía
+   * visual sea perfecta, los elementos que el padre PROYECTA también deben reaccionar,
+   * como verás en el bloque de abajo.
+   */
   .grayscale {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
+  /**
+   * =======================================================================================
+   * 🚨 CORRECCIÓN ARQUITECTÓNICA: RESOLUCIÓN DE COLISIONES EN LA CASCADA
+   * =======================================================================================
+   * Por defecto, este selector pinta absolutamente todos los 'h2' escritos en 'app.html'
+   * de color verde (green), cooperando con el atributo de scope emulado de Angular.
+   *
+   * El problema es que el verde chillón destruiría la estética del tema gris de los dos
+   * primeros acordeones. Como los estilos proyectados se gobiernan obligatoriamente DESDE EL PADRE
+   * y el hijo es impotente para alterarlos, implementamos una sobreescritura contextual aquí:
+   */
   h2 {
-    color: green
+    color: green /* Color por defecto para el tercer acordeón (fuera de la zona gris) */
+  }
+
+  /* Orquestación síncrona: si el 'h2' proyectado está envuelto por el contenedor gris,
+     neutralizamos el verde y lo forzamos a heredar el color gris mitigado del componente hijo */
+  .grayscale h2 {
+    color: inherit;
   }
 }
 

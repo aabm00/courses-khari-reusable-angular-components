@@ -1,14 +1,46 @@
-// CONTEXTUAL THEMING PATTERN:
-// :host-context Looks outward up the DOM tree. If any parent element has the '.grayscale' class,
-// it overrides the primary color variable, forcing the entire grid layout and
-// its color-mix() functions to adapt to a grayscale theme automatically.
+
+/**
+ * =========================================================================================
+ * 🎭 PATRÓN: TEMATIZACIÓN CONTEXTUAL INVERSA (The :host-context Selector & CSS Standard)
+ * =========================================================================================
+ * ¡EL NÚCLEO DE LA LECCIÓN!: Este selector es la llave para entender cómo los dos primeros
+ * acordeones se vuelven grises de forma completamente automática en el navegador.
+ *
+ * 🌍 ¿ES EXCLUSIVO DE ANGULAR O UN ESTÁNDAR DE CSS?
+ * ':host-context()' es un pseudo-selector estándar de CSS definido por la W3C para la API
+ * nativa de Shadow DOM, lo que significa que conceptualmente es aplicable a cualquier
+ * framework moderno (Vue, React, Solid, Svelte). Sin embargo, hay una trampa de compatibilidad:
+ *
+ * Navegadores como Firefox y Safari no le dan soporte nativo. Por lo tanto, en Vue 3 o React
+ * no puedes usarlo directamente porque se rompería en dichos navegadores.
+ *
+ * 🛠️ EL VALOR AÑADIDO DE ANGULAR (Emulación en Tiempo de Compilación):
+ * Aquí radica el superpoder de Angular: como por defecto trabajamos con encapsulación emulada
+ * ('ViewEncapsulation.Emulated'), el compilador de Angular intercepta ':host-context(.grayscale)'
+ * y lo traduce a selectores CSS planos compatibles con el 100% de los navegadores del mercado.
+ * El framework nos regala un estándar web que los navegadores no supieron resolver solos.
+ *
+ * ¿Cómo opera ':host-context(.grayscale)'?
+ * Por diseño estricto, la encapsulación de Angular prohíbe que un componente hijo vea lo que
+ * ocurre en el padre. ':host-context()' es la única excepción nativa: le permite al hijo mirar
+ * HACIA ARRIBA en el árbol HTML. Si detecta que algún elemento envolvente superior posee la
+ * clase '.grayscale', activa esta regla de inmediato.
+ *
+ * ¿Por qué es una arquitectura Senior ultra-eficiente?:
+ * 1. CERO LÓGICA EN JAVASCRIPT: No usamos inputs, ni variables de texto en TypeScript, ni [ngClass].
+ *    Todo el cambio de tema se delega al motor gráfico nativo del navegador.
+ * 2. REFACTORIZACIÓN EN CADENA: Solo cambiamos la variable '--expander-primary'. Como todos los
+ *    estilos de abajo (header, bordes, sombras) se calculan usando 'color-mix()' basados en esa
+ *    variable, todo el acordeón muta de color de forma proporcional con una sola línea de código.
+ * =========================================================================================
+ */
 
 :host-context(.grayscale) {
-  --expander-primary:#717171;
+  --expander-primary:#717171;  /* Sobreescribe el morado por gris si el entorno es .grayscale */
 }
 
 :host {
-  --expander-primary: #6b45bf;
+  --expander-primary: #6b45bf; /* Color morado por defecto de fábrica */
   --expander-primary-light: color-mix(in srgb, var(--expander-primary) 15%, white);
   --expander-border-color: color-mix(in srgb, var(--expander-primary) 25%, white);
   --expander-shadow: color-mix(in srgb, var(--expander-primary) 8%, transparent);
@@ -39,6 +71,8 @@
   display: flex;
   align-items: center;
   padding: 14px 20px;
+  /* Estas funciones del navegador leen dinámicamente el valor actual de la variable,
+     adaptándose al gris o al morado de forma instantánea */
   background: var(--expander-primary-light);
   color: var(--expander-primary);
   font-weight: 600;

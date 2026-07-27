@@ -2,6 +2,30 @@
 <app-blank />
 <h3>This header belongs to App Component</h3>
 
+<!--
+  =======================================================================================
+  🎭 ANCLAJE DE TEMATIZACIÓN CONTEXTUAL (Theming Anchor & Invisible Coupling)
+  =======================================================================================
+  * ¿Por qué es CRÍTICO este contenedor <div class="grayscale">?:
+    Este tag NO inyecta el color gris mediante código imperativo en TypeScript, ni a través
+    de propiedades en el HTML del tipo (<app-expander [theme]="'gray'">).
+
+    Este 'div' actúa como un anzuelo o "cebo contextual" en el árbol DOM del navegador.
+
+  * ¿Cómo funciona la mecánica "Under the Hood"?:
+    Los dos primeros componentes '<app-expander>' inyectados aquí dentro tienen un sensor
+    en su hoja de estilos llamado ':host-context(.grayscale)'. Al renderizarse, el acordeón
+    hijo MIRA HACIA ATRÁS (subiendo por la jerarquía de etiquetas de la página) buscando si
+    alguno de sus padres tiene esta clase.
+
+    Al detectar este <div> con la clase '.grayscale', el hijo activa de forma autónoma su
+    tema gris y recalcula todas sus variables internas. El tercer acordeón, al estar fuera
+    de las fronteras de este <div>, permanece morado.
+
+  * ADVERTENCIA SENIOR: ¡No elimines esta clase! Aunque parezca un contenedor flex ordinario,
+    borrarla romperá la automatización del diseño de los acordeones.
+  =======================================================================================
+-->
 <div class="grayscale">
   <app-expander #ex>
     <button expander-toggle>
