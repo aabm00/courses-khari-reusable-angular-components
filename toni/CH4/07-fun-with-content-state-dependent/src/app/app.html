@@ -1,14 +1,51 @@
+<!--
+  =======================================================================================
+  ⚠️ ADVERTENCIA DE REVISIÓN DE CÓDIGO: EXPLICACIÓN DEL BOTÓN DE COMPOSICIÓN (Acordeón 3)
+  =======================================================================================
+  Al mirar la línea de abajo, podrías pensar que 'expander-toggle' es una simple directiva
+  que escucha el click del ratón. ¡FALSO! Es un COMPONENTE encubierto.
 
+  ¿Cómo se procesan los textos "Less..." y "More..." si el tag es un <button> nativo?:
+  1. Debido a que 'expander-toggle' está definido como un componente de atributo, Angular
+     intercepta este <button> y le inyecta secretamente el HTML de 'expander-toggle.component.html'.
+
+  2. Las etiquetas interiores con los atributos 'expander-open' y 'expander-closed' NO son leídas
+     por el componente principal '<app-expander>'. Viajan un paso más allá: entran por el embudo
+     del botón y son capturadas por los sub-slots condicionales de la plantilla oculta del botón.
+
+  3. Esto explica por qué cambian de texto mágicamente sin usar variables de referencia locales (#ex2).
+     El botón nativo se ha vuelto semánticamente inteligente gracias a esta arquitectura oculta.
+  =======================================================================================
+
+  =======================================================================================
+  🔍 DEMOSTRACIÓN PRÁCTICA DEL POLIMORFISMO DE LA API (Clean Consumer Template)
+  =======================================================================================
+  Mapeado del impacto real de esta evolución en el desarrollo del día a día:
+
+  * ACORDEÓN 2 (Caso de Consumo Simple - Sin botón declarado):
+    <app-expander>
+       <span expander-header>Creating Customizable Components</span>
+       <h2>Beyond Inputs</h2>...
+    </app-expander>
+    - El desarrollador no escribió ningún botón. El componente reacciona vía 'contentChild',
+      detecta la ausencia del toggle personalizado y despliega el botón nativo '+/-'. DX veloz.
+
+  * ACORDEÓN 3 (Caso de Consumo Avanzado - Botón Inteligente de Composición):
+    <app-expander>
+       <button expander-toggle>
+          <span expander-open>Less...</span>
+          <span expander-closed>More...</span>
+       </button>
+    </app-expander>
+    - El desarrollador inyecta un botón custom. El componente oculta su '+/-' nativo.
+      Gracias a los slots internos de 'ExpanderToggleComponent', los textos alternan solos
+      sin necesidad de arrastrar engorrosas variables locales '#ex2="... "'. Limpieza absoluta.
+  =======================================================================================
+-->
 <button expander-toggle>Hello</button>
 
 <app-expander #ex>
 
-  <!--
-   ADVANCED COMPONENT DECOUPLING PATTERN:
-   Instead of hardcoding the trigger button inside the expander, we project it from here.
-   The 'expander-toggle' directive bridges the projected button and the expander's internal
-   state, allowing us to design ANY custom button layout without changing the child component.
-  -->
   <button expander-toggle>
     <app-icon name="chevron" [class.expanded]="ex.isExpanded()" />
   </button>
@@ -38,9 +75,9 @@
 <app-expander>
   <span expander-header>
     <app-icon name="cogwheel" />
-
     Creating Customizable Components</span
   >
+
   <h2>Beyond Inputs</h2>
   <p>
     Instead of relying on <strong>inputs for every visual variation</strong>, a component can expose

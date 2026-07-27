@@ -1,4 +1,21 @@
 
+<!--
+  =======================================================================================
+  PROYECCIÓN CONDICIONAL ANIDADA (Nested Selective Projection)
+  =======================================================================================
+  * ¿Qué logramos transformando la antigua directiva en un Componente con este HTML?:
+    El botón ahora tiene su propia estructura e inteligencia interna. Es capaz de leer si el
+    acordeón padre está abierto o cerrado, y decide qué sub-slot de contenido renderizar:
+
+    - 'select="[expander-open]"': Captura el fragmento que deba verse solo cuando está abierto (ej: "Less...").
+    - 'select="[expander-closed]"': Captura el fragmento exclusivo de cierre (ej: "More...").
+    - '<ng-content />': Un slot genérico final por si el usuario decide meter texto plano tradicional.
+
+  * VENTAJA ARQUITECTÓNICA RADICAL: Erradica por completo la necesidad de usar variables locales
+    de plantilla (#ex2) en el HTML del padre. El botón muta sus textos de forma autónoma en su
+    propio contexto cerrado.
+  =======================================================================================
+-->
 @if(isExpanded()) {
   <ng-content select='[expander-open]' />
 } @else {

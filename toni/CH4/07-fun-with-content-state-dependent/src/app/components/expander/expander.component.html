@@ -5,7 +5,24 @@
 </div>
 
 <div class="toggle-area">
+  <!--
+    =======================================================================================
+    PATRÓN: BIFURCACIÓN DE CONTINGENCIA INTELIGENTE (Smart Fallback API Design)
+    =======================================================================================
+    * ¿Por qué usamos un @if / @else aquí?:
+      Eliminamos la obligatoriedad de maquetar el botón desde fuera. Gracias al Query Signal
+      'hasCustomToggle()', el acordeón se vuelve inteligente:
 
+      - CASO A (@if): Si el desarrollador inyectó un elemento con el atributo '[expander-toggle]',
+        abrimos la ranura (slot) y proyectamos SU botón personalizado con total libertad de diseño.
+
+      - CASO B (@else): Si el desarrollador no proveyó nada (consumidor vago o caso simple),
+        el componente renderiza de forma autónoma su propio botón nativo (+/-).
+
+    * RESULTADO: Máxima flexibilidad para layouts complejos sin penalizar la velocidad de
+      desarrollo en pantallas sencillas de texto plano.
+    =======================================================================================
+  -->
   @if(hasCustomToggle()) {
     <ng-content select="[expander-toggle]" />
   }
