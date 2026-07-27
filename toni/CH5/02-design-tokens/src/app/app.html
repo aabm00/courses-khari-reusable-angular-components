@@ -24,7 +24,23 @@
   </p>
 </app-expander>
 
-<app-expander>
+<!--
+  =======================================================================================
+  🎨 PERSONALIZACIÓN GLOBAL REUTILIZABLE POR DESIGN TOKENS (Zero-Inputs Customization)
+  =======================================================================================
+  * ACORDEÓN 1 y 3 (Estandarizados):
+    Consumen el componente sin alterar sus variables. Adoptarán el color morado corporativo
+    por defecto de fábrica, calculando todos sus contrastes de forma autónoma.
+
+  * ACORDEÓN 2 (La Variante Verde mediante la clase '.special'):
+    <app-expander class="special"> ... </app-expander>
+    - Rompe con el antipatrón de pasar colores por inputs del tipo [color]="'green'".
+    - Simplemente le inyectamos una clase ordinaria. El archivo 'app.component.scss' interceptará
+      esta clase y redefinirá la variable CSS pública del componente. El acordeón reaccionará
+      en tiempo real mutando a verde y adaptando sus degradados derivados de forma nativa.
+  =======================================================================================
+-->
+<app-expander class="special">
   <span expander-header>
     <app-icon name="cogwheel" />
 

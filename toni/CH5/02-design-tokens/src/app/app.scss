@@ -8,17 +8,32 @@
   & > * {
     width: 400px;
   }
+
+  /**
+   * =======================================================================================
+   * 🎨 REDEFINICIÓN DE API ESTÉTICA DE COMPONENTES ENCAPSULADOS
+   * =======================================================================================
+   * Al escribir '--app-expander-base-color: green' dentro de la clase '.special', estamos
+   * enviando un nuevo valor a la variable pública expuesta por el host del acordeón.
+   *
+   * ¿Por qué esta solución es masivamente superior a los métodos de versiones anteriores?:
+   * 1. RESPETA LA ENCAPSULACIÓN: No perforamos con fuerza bruta el CSS del hijo. Es el propio
+   *    hijo el que lee de forma pacífica esta variable y cambia sus fondos internos.
+   * 2. DESACOPLAMIENTO DE TEMAS: TypeScript permanece 100% limpio. Si el equipo de marca decide
+   *    que la variante pase de verde a azul, la modificación se hace estrictamente en este archivo
+   *    de diseño, cumpliendo con la separación absoluta de responsabilidades en arquitecturas Senior.
+   */
+  .special {
+    --app-expander-base-color: green;
+  }
 }
+
 
 span[expander-header] {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
-
-  app-icon {
-    color: var(--p-04);
-  }
 }
 
 button[expander-toggle] {
@@ -37,6 +52,4 @@ button[expander-toggle] {
   }
 }
 
-// strong {
-//   color: var(--expander-primary)
-// }
+
