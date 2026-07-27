@@ -1,6 +1,22 @@
+<!--
+  =======================================================================================
+  🧪 PRUEBA DE ARQUITECTURA: INYECCIÓN DE CONTENIDO ANIDADO VS PLANO
+  =======================================================================================
+  Aquí se demuestra el poder real de la configuración de la directiva del contenedor:
+
+  * ELEMENTO 1 (app-item uid="500 nested"):
+    Está envuelto dentro de un tag HTML ordinario '<div>'. Si el contenedor tuviera configurado
+    'descendants: false', Angular pasaría de largo, lo ignoraría y la cuenta total diría
+    "Found 2 Items". Gracias a 'descendants: true', el motor penetra la capa del '<div>' y lo computa.
+
+  * ELEMENTOS 2 y 3 (uid 600 y 700):
+    Son hijos directos tradicionales de la ranura de proyección. Son detectados por el motor
+    bajo cualquier tipo de configuración estándar.
+  =======================================================================================
+-->
 <app-container>
   <div>
-    <app-item uid="500"/>
+    <app-item uid="500 nested" style="color: brown;"/>
   </div>
   <app-item uid="600"/>
   <app-item uid="700"/>

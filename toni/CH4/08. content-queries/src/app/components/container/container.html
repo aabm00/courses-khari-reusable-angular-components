@@ -1,4 +1,13 @@
 <h1>I am a container</h1>
+<!--
+  =======================================================================================
+  CONSUMO DE SEÑALES EN TIEMPO REAL (Live Signal Array Length)
+  =======================================================================================
+  * 'items().length': Al ejecutar la señal con paréntesis 'items()', nos suscribimos de forma
+    automática al flujo reactivo del Query Signal. El HTML se actualizará de forma quirúrgica
+    mostrando "Found 3 Items" instantáneamente en cuanto Angular finalice la compilación y el
+    rastreo profundo de la vista del padre, sin retrasos en la interfaz.
+-->
 <pre>
     Found {{items().length}} Items
 </pre>
