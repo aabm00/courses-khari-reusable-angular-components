@@ -1,6 +1,30 @@
 
 <button expander-toggle>Hello</button>
 
+<!--
+  =======================================================================================
+  🔥 COMPOSICIÓN MULTI-DISPARADOR (Hybrid Multi-Trigger Pattern)
+  =======================================================================================
+  Analiza minuciosamente el impacto de la nueva directiva en los tres acordeones:
+
+  * ACORDEÓN 1 (Doble Disparador - Máxima Ergonomía Visual):
+    <span expander-header toggle> ... </span>
+    - El desarrollador añadió la palabra 'toggle' junto a 'expander-header'.
+    - RESULTADO: El usuario ahora puede abrir o cerrar el acordeón haciendo click TANTO en el
+      botón del chevron (<button expander-toggle>) como haciendo click en cualquier parte del texto
+      o fondo del título. Esto duplica la superficie de interacción, mejorando drásticamente la UX.
+
+  * ACORDEÓN 2 y 3 (Disparador Estricto por Botón):
+    <span expander-header> ... </span>
+    - Al NO incluir el atributo 'toggle', la nueva directiva se desactiva por completo en estos bloques.
+      El texto no tiene cursor pointer y el acordeón solo obedece estrictamente al botón inferior.
+
+  * LECCIÓN DE ARQUITECTURA SÉNIOR:
+    Hemos añadido una característica de interacción global masiva SIN alterar una sola línea de código
+    dentro del HTML de 'expander.component.html' ni en la clase lógica de 'ExpanderComponent'. El núcleo
+    del componente sigue cerrado a modificaciones pero abierto a extensiones (SOLID puro).
+  =======================================================================================
+-->
 <app-expander #ex>
 
   <!--

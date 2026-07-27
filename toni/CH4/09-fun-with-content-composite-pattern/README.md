@@ -1,6 +1,13 @@
 # Practice 9 - Customizable Toggle Button
 ## CH4 - VIDEO 45
 
+---
+Ver comentarios en
+  - expander-header-toggle-directive.ts
+  - app.html
+  - expander.ts
+---
+
 In this exercise we will make the **toggle button** of the `ExpanderComponent` customizable via content projection. Along the way we will learn how to connect projected content back to the component's logic using a **directive**, handle optional dependency injection, use `contentChild` to detect projected content, and finally turn the directive into a **component** to support state-dependent content inside the button.
 
 The starting project already has multi-slot content projection for the header (`[expander-header]`) and a default slot for the body. The toggle area currently renders a hard-coded `+` / `-` button.
