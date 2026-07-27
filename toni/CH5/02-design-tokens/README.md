@@ -1,5 +1,13 @@
 # Practice 10 - View Encapsulation & Styling Components
-## CH5 - VIDEO 54 - 57
+## CH5 - VIDEO 54 - 58
+
+---
+Ver comentarios en:
+ - expander.component.scss
+ - app.html
+ - app.scss
+ - styles.scss
+---
 
 In this exercise we will explore **view encapsulation** in Angular and learn how to effectively style reusable components using CSS custom properties, the `:host` selector, `host-context`, and `::ng-deep`. We will investigate how Angular applies special attributes to manage style isolation, use CSS custom properties to create themeable components, and understand best practices for styling projected content.
 

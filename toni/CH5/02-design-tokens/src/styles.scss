@@ -1,4 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+/**
+ * =========================================================================================
+ * 🏢 PALETAS DE DISEÑO CENTRALIZADAS (:root Tokens Repository)
+ * =========================================================================================
+ * Este archivo gobierna las constantes inmutables de la marca.
+ * Al definir las paletas primaria (--p-00 a --p-10) y neutral (--n-00 a --n-10) en la raíz
+ * ':root' utilizando 'color-mix()', aseguramos que cualquier componente de la aplicación
+ * pueda consumir colores armonizados y proporcionales.
+ *
+ * Fíjate que las antiguas directivas de formateo de h2, p y button han sido COMENTADAS aquí.
+ * Su responsabilidad ha sido trasladada directamente al interior de 'expander.component.scss'
+ * mediante '::ng-deep', logrando que el componente contenedor limpie la infraestructura global
+ * y se auto-gestione de forma completamente independiente.
+ * =========================================================================================
+ */
+
 :root {
   /* Primary color */
   --color-primary: #6b45bf;
@@ -84,3 +101,4 @@
 //     outline-offset: 1px;
 //   }
 // }
+

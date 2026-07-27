@@ -1,24 +1,56 @@
 
+ /**
+ * =========================================================================================
+ * 🏗️ PATRÓN DE INGENIERÍA: ARQUITECTURA DE VARIABLES CSS DE DOBLE CAPA (API HÍBRIDA)
+ * =========================================================================================
+ * Para crear un componente de librería corporativa que sea 100% personalizable sin caer en
+ * el "Props-Hell" de inputs de TypeScript, dividimos los tokens en dos capas independientes:
+ *
+ * 1. VARIABLES PÚBLICAS (Prefijo 'var(--app-...)'): Actúan como la API pública del componente.
+ *    Cualquier pantalla externa puede redefinirlas (ej: el padre usando la clase '.special').
+ *
+ * 2. VARIABLES PRIVADAS (Prefijo 'var(--_app-...)'): Son de uso estrictamente interno.
+ *    Implementan un patrón Fallback: leen la variable pública y, si el usuario no configuró nada,
+ *    aplican de forma autónoma un valor seguro o un cálculo derivado de color-mix().
+ *
+ * Ventaja Senior: La lógica de TypeScript permanece 100% limpia de variables estéticas. El navegador
+ * gestiona los cambios de color de forma nativa por hardware (GPU), siendo ideal para entornos Zoneless.
+ *
+ * 🚨 REGLA CRÍTICA SÉNIOR: LA LEY DE LA CASCADA EN VARIABLES CSS
+ * Las variables CSS NO son globales ni accesibles desde cualquier componente de la aplicación
+ * por el mero hecho de existir. Siguen estrictamente el árbol del DOM y la cascada nativa:
+ *   - Una variable solo se hereda HACIA ABAJO (de componentes padres a componentes hijos).
+ *   - Un componente padre JAMÁS puede leer una variable declarada dentro de un componente hijo.
+ *   - Componentes hermanos no pueden leerse las variables entre sí.
+ *
+ * Al declarar estos tokens aquí en el ':host' del acordeón, garantizamos que estén disponibles
+ * para toda la plantilla interna del expander y para TODO el contenido que el padre nos proyecte
+ * hacia abajo mediante <ng-content>, pero protegemos al resto de la aplicación de colisiones.
+ * =========================================================================================
+ */
+
   // --expander-primary: #6b45bf;
   // --expander-primary-light: color-mix(in srgb, var(--expander-primary) 15%, white);
   // --expander-border-color: color-mix(in srgb, var(--expander-primary) 25%, white);
   // --expander-shadow: color-mix(in srgb, var(--expander-primary) 8%, transparent);
 
-
 :host {
+  /* CAPA 1: Captura de Token Base Público con Fallback Estático de Fábrica */
   --_app-expander-base-color: var(--app-expander-base-color, #6b45bf);
 
+  /* CAPA 2: Derivación Semántica en Cascada mediante Proporciones color-mix() nativas */
   --_app-expander-base-semi-light: color-mix(in srgb, var(--_app-expander-base-color), white 30%);
   --_app-expander-base-light: color-mix(in srgb, var(--_app-expander-base-color), white 75%);
   --_app-expander-base-lighter: color-mix(in srgb, var(--_app-expander-base-color), white 85%);
   --_app-expander-base-transparent: color-mix(in srgb, var(--_app-expander-base-color), transparent 90%);
 
+  /* CAPA 3: Mapeo de Propiedades Específicas Abiertas a Sobreescritura Independiente */
   --_app-expander-header-background-color : var(--app-expander-header-background-color, var(--_app-expander-base-lighter));
   --_app-expander-border-color : var(--app-expander-border-color, var(--_app-expander-base-light));
   --_app-expander-shadow-color : var(--app-expander-shadow-color, var(--_app-expander-base-transparent));
   --_app-expander-animation-duration : var(--app-expander-animation-duration, 300ms);
 
-
+  /* Configuración del Contenedor de Cuadrícula utilizando los tokens internos */
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: min-content 1fr;
@@ -48,7 +80,10 @@
   background: var(--_app-expander-header-background-color);
   color: var(--_app-expander-base-color);
   font-weight: 600;
-
+  /**
+   * PERFORACIÓN ESTILÍSTICA DIRIGIDA (Deep Children Selection):
+   * Modifica de forma segura elementos proyectados estables de la cabecera (como el app-icon).
+   */
   ::ng-deep app-icon {
     color: var(--_app-expander-base-semi-light);
   }
@@ -60,7 +95,12 @@
   align-items: center;
   padding: 0 16px;
   background: var(--_app-expander-header-background-color);
-
+  /**
+   * INTERCEPCIÓN DEL BOTÓN EN SLOT COMPUESTO:
+   * '::ng-deep button' nos permite inyectar el diseño de infraestructura sobre el botón
+   * que el padre inyecta externamente a través de '<ng-content select="[expander-toggle]">'.
+   * El padre tiene libertad de contenido, pero el hijo le unifica el tamaño, bordes y foco.
+   */
   & > ::ng-deep button {
     display: flex;
     align-items: center;
@@ -88,11 +128,24 @@
   }
 }
 
-// PIERCING STYLES (Ng-Deep Pattern):
-// Although '::ng-deep' is deprecated, it is still the standard way to bypass
-// Angular's view encapsulation. It forces the component's styles to drill down
-// and successfully apply custom formatting to the externally projected <h2> content.
-
+/**
+ * =========================================================================================
+ * 🛡️ EL PATRÓN DE PERFORACIÓN VISUAL (The ::ng-deep Shadow-Piercing Selector)
+ * =========================================================================================
+ * Dado que el contenido del cuerpo del acordeón se pasa vía <ng-content>, las etiquetas
+ * (<h2>, <p>, <strong>) pertenecen al ámbito de compilación del padre (app.html). Los estilos
+ * ordinarios de este archivo SCSS no pueden tocarlas debido a los atributos de encapsulación (_ngcontent).
+ *
+ * ¿Por qué usamos '::ng-deep' si la documentación dice que está obsoleto (deprecated)?:
+ * Aunque está obsoleto por el consorcio de navegadores Shadow DOM, en la emulación de Angular sigue
+ * siendo la única forma oficial de decirle al compilador: "Neutraliza el atributo restrictivo del hijo
+ * en esta regla y permite que este estilo penetre hacia el HTML inyectado".
+ *
+ * BENEFICIO ELITE: El acordeón unifica el diseño tipográfico interior automáticamente. El cliente
+ * solo tira texto libre dentro del acordeón, y nosotros garantizamos el espaciado correcto, colores,
+ * tamaños e interlineados corporativos de forma 100% encapsulada.
+ * =========================================================================================
+ */
 .content-area {
   grid-area: content;
   display: flex;
