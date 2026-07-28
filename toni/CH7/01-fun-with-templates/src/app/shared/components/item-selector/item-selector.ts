@@ -21,7 +21,13 @@ export class ItemSelectorComponent {
     this.selectedOption.set(option)
   }
 
-  // Template comming from parent
+  /**
+   * ESTABILIDAD DE LA CONSULTA DE CONTENIDO:
+   * Aunque el padre cambió drásticamente su sintaxis de marcas en el HTML usando '*',
+   * 'contentChild' sigue encontrando 'ItemTemplateDirective' a la perfección.
+   * Esto demuestra que Angular ha transpilado el '*' convirtiéndolo en un <ng-template>
+   * real en el árbol de contenido proyectado antes de resolver este query de señal.
+   */
   readonly itemTemplateDirective = contentChild(ItemTemplateDirective)
   readonly hasItemTemplate = computed(() => !!this.itemTemplateDirective())
   readonly itemTemplate = computed(() => this.itemTemplateDirective()?.template ?? null)

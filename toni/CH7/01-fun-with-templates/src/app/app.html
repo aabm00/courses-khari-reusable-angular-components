@@ -1,4 +1,8 @@
-
+<!--
+  EVOLUCIÓN ERGONÓMICA DE LA API PÚBLICA:
+  Hemos sustituido todas las envolturas explícitas de <ng-template> por la sintaxis de estrella (*).
+  El código es mucho más limpio, intuitivo y mantiene la co-locación del diseño en una sola línea.
+-->
 
 <div class="colors-area">
   <app-item-selector
@@ -6,7 +10,17 @@
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
 
-    <!-- STRUCTURAL DIRECTIVE SYNTAX EQUIVALENCE:
+    <!--
+      EXPLICACIÓN DEL PROCESAMIENTO INTERNO (DESUGARING):
+      La instrucción '*appItemTemplate="let color"' es interceptada por el compilador.
+      Angular aplica azúcar sintáctico y genera tras bambalinas esto:
+      <ng-template appItemTemplate let-color>
+        <span [style.color]="color">...</span>
+      </ng-template>
+      El 'let-color' le indica al motor de plantillas que asigne el contexto implícito
+      ($implicit) emitido por el bucle interno del componente a la variable local 'color'.
+
+      STRUCTURAL DIRECTIVE SYNTAX EQUIVALENCE:
       The uncommented line with the asterisk ('*appItemTemplate="let color"') is exactly
       equivalent to the commented '<ng-template appItemTemplate let-color>' block below it.
 
@@ -30,7 +44,7 @@
     title="Fonts"
     [options]="possibleFonts()"
     [(selectedOption)]="selectedFont">
-      <!-- optional Template for Fonts -->
+      <!-- Aplicamos la misma conversión reduciendo drásticamente la anidación del marcado -->
       <span *appItemTemplate= "let font" [style.font-family]="font"> {{ font }}</span>
 
   </app-item-selector>
@@ -42,7 +56,7 @@
     [options]="possibleSizes()"
     [(selectedOption)]="selectedSize">
 
-    <!-- optional Template for Sizes -->
+      <!-- Ahora activamos también la personalización visual para el selector de tamaños -->
       <span *appItemTemplate= "let size" [style.font-size]="size"> {{ size }}</span>
 
   </app-item-selector>

@@ -1,20 +1,26 @@
 
 
-		<span>{{ title() }}</span>
-		<div class="options-list">
-			@for (option of options(); track option) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedOption() === option"
-					(click)="select (option)"
-				>
-        <!-- *ngTemplateOutlet is a structure directive because it stars with * -->
-        @if( hasItemTemplate() ){
-          <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
+<span>{{ title() }}</span>
+<div class="options-list">
+  @for (option of options(); track option) {
+    <div
+      class="option-item"
+      [class.is-selected]="selectedOption() === option"
+      (click)="select (option)"
+    >
 
-        } @else{
-					{{ option }}
-        }
-				</div>
-			}
-		</div>
+    <!--
+      MECANISMO DE ESTAMPADO INMUTABLE:
+      La directiva estructural '*ngTemplateOutlet' se encarga de clonar el TemplateRef
+      que extrajimos de la directiva y renderizarlo dentro de este div contenedor.
+      Pasamos '$implicit: option' para alimentar el 'let-variable' definido en el padre.
+    -->
+    @if( hasItemTemplate() ){
+      <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
+
+    } @else{
+      {{ option }}
+    }
+    </div>
+  }
+</div>
