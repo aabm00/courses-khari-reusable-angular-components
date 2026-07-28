@@ -1,9 +1,14 @@
 
-<!-- optional Template for Colors -->
+<!--
+  DEFINICIÓN DEL TEMPLATE DE COLOR:
+  El atributo 'let-color' intercepta la propiedad '$implicit' que inyecta el 'item-selector'
+  y la expone localmente como la variable 'color' para mapear estilos en tiempo real.
+-->
 <ng-template #colorTemplate let-color>
   <span [style.color]="color"> {{ color }}</span>
 </ng-template>
 
+<!-- Pasamos la referencia local '#' como un input convencional [itemTemplate]="colorTemplate" -->
 <div class="colors-area">
   <app-item-selector
     title="Colors"
@@ -12,7 +17,7 @@
     [itemTemplate]="colorTemplate" />
 </div>
 
-<!-- optional Template for Fonts -->
+<!-- DEFINICIÓN DEL TEMPLATE DE FUENTE -->
 <ng-template #fontTemplate let-font>
   <span [style.font-family]="font"> {{ font }}</span>
 </ng-template>
@@ -25,6 +30,7 @@
     [itemTemplate]="fontTemplate"/>
 </div>
 
+<!-- SECCIÓN SIN PLANTILLA: Demuestra la retrocompatibilidad y fallback del componente -->
 <div class="sizes-area">
   <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
 </div>

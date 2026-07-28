@@ -1,19 +1,30 @@
 
 
-		<span>{{ title() }}</span>
-		<div class="options-list">
-			@for (option of options(); track option) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedOption() === option"
-					(click)="select (option)"
-				>
-        @if( hasItemTemplate() ){
-          <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
+<span>{{ title() }}</span>
 
-        } @else{
-					{{ option }}
-        }
-				</div>
-			}
-		</div>
+<div class="options-list">
+  @for (option of options(); track option) {
+    <div
+      class="option-item"
+      [class.is-selected]="selectedOption() === option"
+      (click)="select (option)"
+    >
+
+    <!-- BIFURCACIÓN DE PERSONALIZACIÓN -->
+    <!-- Consultamos la Signal computada para decidir la estrategia de dibujo -->
+    @if( hasItemTemplate() ){
+      <!--
+        NG-TEMPLATE OUTLET:
+        Instancia y estampa la referencia del Template provisto.
+        Mediante el objeto 'context', mapeamos la propiedad reservada '$implicit'
+        para que el padre recoja el string del item actual usando 'let-tuVariable'.
+      -->
+      <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
+
+    } @else{
+       <!-- PLAN DE RESERVA: Si el padre no mandó plantilla, pintamos el texto plano por defecto -->
+      {{ option }}
+    }
+    </div>
+  }
+</div>
