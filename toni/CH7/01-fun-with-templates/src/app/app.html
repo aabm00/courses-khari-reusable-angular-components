@@ -1,12 +1,19 @@
 
+<!--
+  EVOLUCIÓN ARQUITECTÓNICA:
+  Ya no existen las etiquetas separadas <ng-template #nameTemplate>.
+  Colocamos el <ng-template> justo en el bloque donde se renderizará.
+  Angular detecta automáticamente el elemento gracias al query de contenido.
+-->
 
+<!-- Área de Selectores de Color con Plantilla Encastrada -->
 <div class="colors-area">
   <app-item-selector
     title="Colors"
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
 
-    <!-- optional Template for Colors -->
+    <!-- Capturamos el contexto implícito de la iteración interna directamente aquí -->
     <ng-template let-color>
       <span [style.color]="color"> {{ color }}</span>
     </ng-template>
@@ -14,7 +21,7 @@
   </app-item-selector>
 </div>
 
-
+<!-- Área de Selectores de Fuente con Plantilla Encastrada -->
 <div class="fonts-area">
   <app-item-selector
     title="Fonts"
@@ -28,6 +35,7 @@
   </app-item-selector>
 </div>
 
+<!-- El Selector de Tamaño sigue funcionando por defecto (Fallback de Texto Plano) -->
 <div class="sizes-area">
   <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
 </div>
