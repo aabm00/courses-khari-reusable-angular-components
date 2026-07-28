@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { COLOR_NAMES, FONT_NAMES, SIZES } from './data/constants';
+// IMPORTACIÓN CONSOLIDADA: Traemos el paquete completo con un único token
 import { ItemSelector } from './shared/components/item-selector/item-selector'; // Component + Directive
 
 
 @Component({
   selector: 'app-root',
-  imports: [ItemSelector],
+  imports: [ItemSelector], // Registramos el array completo: menor fricción visual
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

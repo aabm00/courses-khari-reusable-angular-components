@@ -6,7 +6,10 @@
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
 
-    <!-- optional Template for Colors -->
+    <!--
+      Se añade el atributo de la directiva, pero el componente aún no lo valida.
+      El funcionamiento es exitoso porque es un <ng-template> estándar.
+    -->
     <ng-template appItemTemplate let-color>
       <span [style.color]="color"> {{ color }}</span>
     </ng-template>

@@ -20,11 +20,20 @@ export class ItemSelectorComponent {
     this.selectedOption.set(option)
   }
 
-  // Template comming from parent
+  // CONEXIÓN GENÉRICA (DEUDA TÉCNICA TEMPORAL):
+  // Buscamos 'TemplateRef' de forma directa en el árbol de contenido proyectado.
+  // Como busca la clase base 'TemplateRef' de Angular, capturará CUALQUIER <ng-template>
+  // que el padre ponga dentro, tenga o no tenga la directiva 'appItemTemplate' adjunta.
   readonly itemTemplate = contentChild<TemplateRef<any>>(TemplateRef)
   readonly hasItemTemplate = computed(() => !!this.itemTemplate())
 }
 
+/**
+ * PATRÓN BUNDLE DE COMPONENTES (CO-LOCACIÓN):
+ * Exportamos un array consolidado para simplificar la API pública.
+ * Los desarrolladores que consuman 'app-item-selector' solo importarán 'ItemSelector',
+ * obteniendo el componente y todas sus directivas configuradas de un plumazo.
+ */
 export const ItemSelector = [
   ItemSelectorComponent,
   ItemTemplateDirective
