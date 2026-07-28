@@ -1,4 +1,9 @@
-
+<!--
+  PRODUCCIÓN CON SEGURIDAD ESTÁTICA TOTAL:
+  A partir de este incremento de código, las expresiones de enlace están 100% protegidas.
+  Si un desarrollador intentara usar una propiedad inexistente (ej: 'color.length.noExiste'),
+  el compilador de Angular detendrá el build inmediatamente, evitando bugs en producción.
+-->
 
 <div class="colors-area">
   <app-item-selector
@@ -19,6 +24,7 @@
       <span [style.color]="color"> {{ color }}</span>
     </ng-template> -->
 
+    <!-- El motor autodeduce que 'color' es de tipo primitivo string gracias a la guardia estática -->
     <span *appItemTemplate= "let color" [style.color]= "color"> {{ color }}</span>
 
   </app-item-selector>
@@ -30,7 +36,7 @@
     title="Fonts"
     [options]="possibleFonts()"
     [(selectedOption)]="selectedFont">
-      <!-- optional Template for Fonts -->
+      <!-- La variable local 'font' hereda idéntica protección en tiempo de compilación -->
       <span *appItemTemplate= "let font" [style.font-family]="font"> {{ font }}</span>
 
   </app-item-selector>
@@ -42,7 +48,7 @@
     [options]="possibleSizes()"
     [(selectedOption)]="selectedSize">
 
-    <!-- optional Template for Sizes -->
+      <!-- La variable local 'size' queda perfectamente tipada de forma transparente -->
       <span *appItemTemplate= "let size" [style.font-size]="size"> {{ size }}</span>
 
   </app-item-selector>

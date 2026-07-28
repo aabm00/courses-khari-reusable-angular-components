@@ -1,4 +1,14 @@
 # Practice 11 - Fun with Templates
+# CH07-01: Video 74
+
+---
+ Mirar los comentarios de:
+  - app.html
+  - app.ts
+  - item-template.directive.ts
+  - item-selector.html
+  - item-selector.ts
+---
 
 In this exercise we will create a reusable `ItemSelector` component, then progressively make it customizable using **`ng-template`**, **`TemplateRef`**, and a **content child directive**. Along the way we will learn how to pass templates into the component, define typed template contexts, use `ngTemplateOutlet`, and detect projected templates via `contentChild`. We will also slowly improve the syntax and ergonomics of using custom templates, culminating in a clean and intuitive API.
 

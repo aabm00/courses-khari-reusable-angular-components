@@ -21,7 +21,13 @@ export class ItemSelectorComponent {
     this.selectedOption.set(option)
   }
 
-  // Template comming from parent
+  /**
+   * FLUJO RECOLECTOR TOTALMENTE TIPADO:
+   * El 'contentChild' extrae la instancia de 'ItemTemplateDirective'.
+   * Dado que la directiva ahora expone internamente un 'TemplateRef<ItemTemplateContext>',
+   * la señal computada 'itemTemplate' hereda de forma automática el tipado estricto
+   * sin necesidad de casteos manuales explícitos peligrosos en este controlador.
+   */
   readonly itemTemplateDirective = contentChild(ItemTemplateDirective)
   readonly hasItemTemplate = computed(() => !!this.itemTemplateDirective())
   readonly itemTemplate = computed(() => this.itemTemplateDirective()?.template ?? null)
