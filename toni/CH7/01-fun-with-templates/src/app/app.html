@@ -1,7 +1,15 @@
+<!--
+  APLICACIÓN DEL COMPONENTE REUTILIZABLE:
+  Observa la limpieza. Pasamos la Signal de opciones desempaquetada '()' y enlazamos
+  la selección de forma bidireccional usando la sintaxis de 'banana-in-a-box' [()].
+-->
+
+<!-- Área de Color reestructurada -->
 <div class="colors-area">
   <app-item-selector title="Colors" [options]="possibleColors()" [(selectedOption)]="selectedColor" />
 </div>
 
+<!-- Área de Fuentes reestructurada -->
 <div class="fonts-area">
   <app-item-selector title="Fonts" [options]="possibleFonts()" [(selectedOption)]="selectedFont" />
 	<!-- <div class="item-selector">
@@ -20,6 +28,7 @@
 	</div> -->
 </div>
 
+<!-- Área de Tamaños reestructurada -->
 <div class="sizes-area">
   <app-item-selector title="Sizes" [options]="possibleSizes()" [(selectedOption)]="selectedSize" />
 	<!-- <div class="item-selector">
@@ -38,6 +47,7 @@
 	</div> -->
 </div>
 
+<!-- El Editor se mantiene intacto, escuchando las mismas Signals del componente padre -->
 <div class="editor-area">
 	<textarea
 		placeholder="Type your text here..."
