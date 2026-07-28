@@ -1,3 +1,11 @@
+<!--
+  ALERTA DE REUSABILIDAD:
+  Existe un patrón de repetición severo en las tres secciones de abajo (Color, Font, Size).
+  Cada bloque replica de forma idéntica la estructura de clases CSS y la directiva de flujo `@for`.
+  Objetivo Fase 1: Encapsular este marcado repetitivo dentro de un componente genérico '<app-item-selector>'.
+-->
+
+<!-- SECCIÓN 1: SELECTOR DE COLOR -->
 <div class="colors-area">
 	<div class="item-selector">
 		<span>Color</span>
@@ -15,6 +23,7 @@
 	</div>
 	</div>
 
+<!-- SECCIÓN 2: SELECTOR DE FUENTE -->
 <div class="fonts-area">
 	<div class="item-selector">
 		<span>Font</span>
@@ -32,6 +41,7 @@
 	</div>
 </div>
 
+<!-- SECCIÓN 3: SELECTOR DE TAMAÑO -->
 <div class="sizes-area">
 	<div class="item-selector">
 		<span>Size</span>
@@ -49,6 +59,7 @@
 	</div>
 </div>
 
+<!-- ÁREA DE PREVISUALIZACIÓN (EDITOR) -->
 <div class="editor-area">
 	<textarea
 		placeholder="Type your text here..."

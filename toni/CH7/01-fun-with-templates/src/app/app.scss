@@ -11,6 +11,13 @@
   padding: 1rem;
   box-sizing: border-box;
 
+  /**
+   * ACOPLAMIENTO DE ESTILOS (A CORREGIR):
+   * Toda la regla '.item-selector' y sus sub-clases hijas (.options-list, .option-item)
+   * están rompiendo el principio de encapsulación de componentes. El componente raíz no debería
+   * conocer cómo se estiliza un chip de selección individual.
+   * En el paso 3, este bloque SCSS completo migrará a 'item-selector.scss' bajo el pseudo-selector ':host'.
+   */
   .item-selector {
     display: flex;
     flex-direction: column;
@@ -51,6 +58,7 @@
     }
   }
 
+  // Estilos de distribución de rejilla estructural (Se quedan en App)
   .colors-area {
     grid-area: color;
   }
