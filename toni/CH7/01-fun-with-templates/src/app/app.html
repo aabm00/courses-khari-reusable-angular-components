@@ -5,7 +5,15 @@
     title="Colors"
     [options]="possibleColors()"
     [(selectedOption)]="selectedColor">
-
+    <!--
+      =======================================================================================
+      SINTAXIS 1: RE-MAQUETACIÓN TOTAL DEL CONTENEDOR VÍA SINTAXIS DE ASTERISCO (*appItemContainer)
+      =======================================================================================
+      Al colocar '*appItemContainer', el compilador desazuca el bloque en memoria creando un
+      <ng-template> invisible. Capturamos las tres variables tipadas estrictamente gracias al Guard.
+      La clase '.color-container' y su evento click quedan bajo el control de este archivo del padre,
+      redefiniendo por completo el look and feel del chip del acordeón de forma agnóstica al hijo.
+    -->
     <div
       *appItemContainer= "let value; let selected= isSelected; let action= onSelect"
       class="color-container"
@@ -40,7 +48,14 @@
     title="Fonts"
     [options]="possibleFonts()"
     [(selectedOption)]="selectedFont">
-      <!-- optional Template for Fonts -->
+      <!--
+        =======================================================================================
+        SINTAXIS 2: MODIFICACIÓN PARCIAL DE CONTENIDO (*appItemTemplate)
+        =======================================================================================
+        Sintaxis simplificada de asterisco: equivale exactamente al bloque <ng-template appItemTemplate>
+        comentado abajo. Mantiene el contenedor estándar con check (✓) del expander hijo, pero
+        altera el estilo del texto inyectando dinámicamente la tipografía 'font-family'.
+      -->
       <span *appItemTemplate= "let font" [style.font-family]="font"> {{ font }}</span>
 
   </app-item-selector>

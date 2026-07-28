@@ -3,7 +3,19 @@
 		<span>{{ title() }}</span>
 		<div class="options-list">
 			@for (option of options(); track option) {
+        <!--
+          =======================================================================================
+          JERARQUÍA DE RENDERIZADO EN CASCADA (Three-Tier Blueprint Engine)
+          =======================================================================================
+        -->
+
+        <!-- ESTRATEGIA 1: Control absoluto del contenedor (Tier Superior) -->
         @if(hasItemContainer()) {
+          <!--
+            *ngTemplateOutlet: Directiva estructural nativa. Instancia e inyecta la plantilla física
+            del cliente pasándole el contexto extendido: la opción cruda ($implicit), el booleano de
+            comprobación visual y la función de retorno (callback) mutadora encapsulada.
+          -->
           <ng-container *ngTemplateOutlet= "itemContainer(); context: {
             $implicit: option,
             isSelected: selectedOption() === option,
@@ -11,19 +23,21 @@
           }" />
         }
         @else {
-
+          <!-- ESTRATEGIA 2: Contenedor corporativo de fábrica (Ficha o Chip estándar con borde) -->
           <div
             class="option-item"
             [class.is-selected]="selectedOption() === option"
             (click)="select (option)"
           >
-          <!-- *ngTemplateOutlet is a structure directive because it stars with * -->
-          @if( hasItemTemplate() ){
-            <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
+            <!-- Sub-bifurcación interior para el contenido de la ficha -->
+            @if( hasItemTemplate() ){
+              <!-- ESTRATEGIA 2A: Contenido interno del chip personalizado por el cliente -->
+              <ng-container *ngTemplateOutlet= "itemTemplate(); context: {$implicit: option}" />
 
-          } @else{
-            {{ option }}
-          }
+            } @else{
+              <!-- ESTRATEGIA 2B: Comportamiento Fallback por defecto de fábrica (Texto Plano) -->
+              {{ option }}
+            }
           </div>
 
         }

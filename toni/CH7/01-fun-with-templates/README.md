@@ -1,4 +1,22 @@
 # Practice 11 - Fun with Templates
+# CH7 - VIDEO 66 - 76
+
+# START TONI
+---
+Para entender la arquitectura de plantillas dinámicas y su flujo de datos de forma lógica, un desarrollador debe leer los comentarios exactamente en este orden:
+Ver los comentarios en el siguiente orden:
+
+   1. item-selector.component.ts: Es el plano maestro. Explica el sistema de consulta de tres niveles (contentChild) y las señales computadas que orquestan el ecosistema.
+   2. item-template.directive.ts: Explica cómo se captura el plano de la vista básica (TemplateRef) y cómo se activa el tipado estricto en el HTML mediante la guarda estática.
+   3. item-container.directive.ts: Detalla el escenario avanzado de control total del contenedor y el tipado de callbacks (onSelect).
+   4. item-selector.html: Muestra cómo el motor de estampación (*ngTemplateOutlet) decide en cascada qué plantilla inyectar en el bucle @for.
+   5. app.html: El punto de consumo final. Ilustra la diferencia práctica entre la re-maquetación total del contenedor (*appItemContainer) y la modificación parcial (*appItemTemplate).
+
+---
+
+
+
+# END TONI
 
 In this exercise we will create a reusable `ItemSelector` component, then progressively make it customizable using **`ng-template`**, **`TemplateRef`**, and a **content child directive**. Along the way we will learn how to pass templates into the component, define typed template contexts, use `ngTemplateOutlet`, and detect projected templates via `contentChild`. We will also slowly improve the syntax and ergonomics of using custom templates, culminating in a clean and intuitive API.
 

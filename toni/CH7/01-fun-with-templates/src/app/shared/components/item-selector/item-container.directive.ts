@@ -21,6 +21,21 @@ export class ItemContainerDirective {
    * By returning 'ctx is ItemTemplateContext', it ensures that variables declared in the HTML
    * (like '*appItemTemplate="let color"') are strictly typed as 'string' instead of 'any'.
    */
+
+  /**
+   * =========================================================================================
+   * 🛡️ COMPILACIÓN SEGURA CON CONTEXTO EXTENDIDO (Multi-Variable Context Guard)
+   * =========================================================================================
+   * A diferencia del template interno, la directiva del contenedor inyecta una estructura compleja
+   * de tres propiedades al HTML del consumidor: el valor, un estado visual y una función de acción.
+   *
+   * Al declarar este guard estático, el editor de código del programador (IntelliSense) sabrá de forma
+   * instantánea y en tiempo de compilación que:
+   *   - 'let-value' es estrictamente un 'string'.
+   *   - 'let-selected' es estrictamente un 'boolean'.
+   *   - 'let-action' es estrictamente una función ejecutable sin argumentos '() => void'.
+   * =========================================================================================
+   */
   static ngTemplateContextGuard( _: ItemContainerDirective, ctx: unknown): ctx is ItemContainerContext {
     return true
   }
