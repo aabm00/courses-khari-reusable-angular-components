@@ -11,54 +11,72 @@
   padding: 1rem;
   box-sizing: border-box;
 
+//   .item-selector {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 0.35rem;
+//     font-weight: 600;
+
+//     .options-list {
+//       display: flex;
+//       flex-wrap: wrap;
+//       gap: 0.45rem;
+//       padding: 0.4rem;
+//       border: 1px solid var(--n-30);
+//       border-radius: 0.4rem;
+//       background-color: var(--n-05);
+
+//       .option-item {
+//         padding: 0.35rem 0.55rem;
+//         border: 1px solid var(--n-30);
+//         border-radius: 0.35rem;
+//         background-color: var(--n-00);
+//         color: var(--n-99);
+//         font-size: 0.9rem;
+//         font-weight: 500;
+//         cursor: pointer;
+//         user-select: none;
+
+//         &.is-selected {
+//           border-color: var(--p-50);
+//           background-color: var(--p-10);
+//           color: var(--p-80);
+
+//           &::before {
+//             content: '✓ ';
+//             font-weight: 700;
+//           }
+//         }
+//       }
+//     }
+//   }
+
   /**
-   * ACOPLAMIENTO DE ESTILOS (A CORREGIR):
-   * Toda la regla '.item-selector' y sus sub-clases hijas (.options-list, .option-item)
-   * están rompiendo el principio de encapsulación de componentes. El componente raíz no debería
-   * conocer cómo se estiliza un chip de selección individual.
-   * En el paso 3, este bloque SCSS completo migrará a 'item-selector.scss' bajo el pseudo-selector ':host'.
+   * ESTILOS DEL CONTENEDOR CUSTOMIZADO DEL TIER 1:
+   * Al haber provisto un marcado completamente nuevo a través de 'appItemContainer' en la sección de colores,
+   * definimos las propiedades visuales que gobernarán ese nuevo div externo desde el componente padre.
+   * Hacemos uso de propiedades personalizadas de CSS (--color-option) inyectadas dinámicamente en el HTML.
    */
-  .item-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    font-weight: 600;
+  .color-container {
+    border: 1px solid var(--color-option);
+    color: var(--color-option);
+    padding: 5px;
+    border-radius: 4px;
+    background-color: var(--n-00);
+    cursor: pointer;
+    transition: .5s;
 
-    .options-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      padding: 0.4rem;
-      border: 1px solid var(--n-30);
-      border-radius: 0.4rem;
-      background-color: var(--n-05);
-
-      .option-item {
-        padding: 0.35rem 0.55rem;
-        border: 1px solid var(--n-30);
-        border-radius: 0.35rem;
-        background-color: var(--n-00);
-        color: var(--n-99);
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        user-select: none;
-
-        &.is-selected {
-          border-color: var(--p-50);
-          background-color: var(--p-10);
-          color: var(--p-80);
-
-          &::before {
-            content: '✓ ';
-            font-weight: 700;
-          }
-        }
-      }
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-option), var(--n-00) 70%);
+    }
+    /** Clase CSS aplicada dinámicamente cuando el flag booleano 'selected' del contexto es verdadero */
+    &.chosen {
+      background-color: var(--color-option);
+      color: var(--n-00);
     }
   }
 
-  // Estilos de distribución de rejilla estructural (Se quedan en App)
+  // Reglas fijas de posicionamiento de rejilla estructural del componente raíz
   .colors-area {
     grid-area: color;
   }
@@ -85,3 +103,4 @@
     }
   }
 }
+

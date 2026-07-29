@@ -1,0 +1,64 @@
+
+<span>{{ title() }}</span>
+
+<div class="options-list">
+  @for (option of options(); track option) {
+
+    <!--
+      EXPLICACIÓN DEL SISTEMA DE DECISIÓN JERÁRQUICO DE 3 NIVELES (TIERS):
+      El bucle '@for' recorre la lista de opciones y para cada vuelta evalúa las Signals
+      computadas de las directivas proyectadas en este orden de prioridad estricto:
+    -->
+
+    <!--
+      NIVEL 1 (TIER 1) - PERSONALIZACIÓN TOTAL DEL CONTENEDOR EXTERIOR:
+      Si la señal reactiva 'hasItemContainer()' es verdadera, significa que el padre ha inyectado
+      la directiva 'appItemContainer'. En este escenario, el bloque '@else' inferior no se renderiza.
+      Utilizamos '*ngTemplateOutlet' para clonar y estampar dinámicamente la plantilla provista por el padre.
+      Le inyectamos un objeto de contexto en tiempo real: el valor de la opción actual ($implicit),
+      el cálculo booleano de si está seleccionada (isSelected), y la función callback para cuando se haga
+      click (onSelect).
+    -->
+    @if(hasItemContainer()) {
+      <ng-container *ngTemplateOutlet="itemContainer(); context: {
+        $implicit: option,
+        isSelected: selectedOption() === option,
+        onSelect: () => select(option)
+      }" />
+    }
+
+    <!--
+      ESTRUCTURA POR DEFECTO (REMANENTE PARA TIER 2 Y TIER 3):
+      Si 'hasItemContainer()' es falso, el motor de Angular entra en esta sección fija.
+      Aquí se imprime el marco estructural estándar de la librería: un elemento 'div' con
+      la clase '.option-item', clases de selección reactivas y el manejador nativo '(click)'.
+    -->
+    @else {
+      <div
+        class="option-item"
+        [class.is-selected]="selectedOption() === option"
+        (click)="select (option)"
+      >
+        <!--
+          NIVEL 2 (TIER 2) - PERSONALIZACIÓN EXCLUSIVA DEL CONTENIDO INTERIOR:
+          Si 'hasItemTemplate()' es verdadero, significa que el usuario decidió mantener el marco
+          estándar pero quiere cambiar cómo se visualiza el texto. Estampamos la plantilla interna
+          mediante '*ngTemplateOutlet' inyectándole únicamente el valor de la opción ($implicit).
+        -->
+        @if( hasItemTemplate() ){
+          <ng-container *ngTemplateOutlet="itemTemplate(); context: {$implicit: option}" />
+        }
+        <!--
+          NIVEL 3 (TIER 3) - ENFOQUE DE RESERVA O FALLBACK POR DEFECTO:
+          Si el desarrollador no ha proveído ninguna de las dos directivas de personalización,
+          el componente se comporta de manera segura y conservadora, limitándose a volcar
+          la cadena de texto plano de la opción dentro del div contenedor.
+        -->
+        @else {
+          {{ option }}
+        }
+      </div>
+    }
+
+  }
+</div>

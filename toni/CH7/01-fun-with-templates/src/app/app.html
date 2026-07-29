@@ -1,65 +1,77 @@
+
 <!--
-  ALERTA DE REUSABILIDAD:
-  Existe un patrón de repetición severo en las tres secciones de abajo (Color, Font, Size).
-  Cada bloque replica de forma idéntica la estructura de clases CSS y la directiva de flujo `@for`.
-  Objetivo Fase 1: Encapsular este marcado repetitivo dentro de un componente genérico '<app-item-selector>'.
+  GUÍA ARQUITECTÓNICA DE CONSUMO FINAL DE LA API:
+  En esta plantilla se demuestra la coexistencia de los diferentes niveles de personalización.
+  Cada sección expone de manera didáctica cómo interactúa el compilador con la sintaxis moderna.
 -->
 
-<!-- SECCIÓN 1: SELECTOR DE COLOR -->
+<!-- CONFIGURACIÓN BAJO NIVEL 1 (TIER 1): PERSONALIZACIÓN DE CONTENEDOR COMPLETO -->
 <div class="colors-area">
-	<div class="item-selector">
-		<span>Color</span>
-		<div class="options-list">
-			@for (color of possibleColors(); track color) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedColor() === color"
-					(click)="onColorChange(color)"
-				>
-					{{ color }}
-				</div>
-			}
-		</div>
-	</div>
-	</div>
+  <app-item-selector
+    title="Colors"
+    [options]="possibleColors()"
+    [(selectedOption)]="selectedColor">
 
-<!-- SECCIÓN 2: SELECTOR DE FUENTE -->
+    <!--
+      EXPLICACIÓN CIENTÍFICA DE LA SINTAXIS DE ASTERISCO (*):
+      Escribir '*appItemContainer="..."' activa el proceso de "desazucaro" (Desugaring) del compilador de Angular.
+      En tiempo de compilación, Angular detecta el asterisco y destruye esta etiqueta 'div' del árbol DOM directo.
+      En su lugar, genera de forma invisible en memoria una estructura idéntica a esta:
+      <ng-template appItemContainer let-value let-selected="isSelected" let-action="onSelect">
+         <div class="color-container" [style.--color-option]="value" [class.chosen]="selected" (click)="action()">...</div>
+      </ng-template>
+
+      EXPLICACIÓN DEL MAPEO DE CONTEXTO MÚLTIPLE EN HTML:
+      1. 'let value': Al no especificar asignación, captura la propiedad reservada '$implicit' (el string de la opción).
+      2. 'let selected=isSelected': Mapea la propiedad 'isSelected' calculada por el hijo a la variable local 'selected'.
+      3. 'let action=onSelect': Mapea el callback del hijo a la variable local 'action', invocada aquí mediante '(click)="action()"'.
+      Gracias al 'ngTemplateContextGuard' de la directiva, todas estas variables locales están fuertemente tipadas en el IDE.
+    -->
+    <div
+      *appItemContainer= "let value; let selected= isSelected; let action= onSelect"
+      class="color-container"
+      [style.--color-option]="value"
+      [class.chosen]= "selected"
+      (click)= "action()"
+    >
+       {{ value }}
+    </div>
+
+  </app-item-selector>
+</div>
+
+<!-- CONFIGURACIÓN BAJO NIVEL 2 (TIER 2): PERSONALIZACIÓN DE CONTENIDO INTERNO -->
 <div class="fonts-area">
-	<div class="item-selector">
-		<span>Font</span>
-		<div class="options-list">
-			@for (font of possibleFonts(); track font) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedFont() === font"
-					(click)="onFontChange(font)"
-				>
-					{{ font }}
-				</div>
-			}
-		</div>
-	</div>
+  <app-item-selector
+    title="Fonts"
+    [options]="possibleFonts()"
+    [(selectedOption)]="selectedFont">
+
+      <!--
+        Aquí aplicamos el mismo desazucaro del asterisco (*appItemTemplate="let font").
+        El compilador lo reescribe como un <ng-template> que envuelve al <span>.
+        Al evaluar la jerarquía en 'item-selector.html', 'hasItemContainer()' dará falso (usando el div base de la librería),
+        pero 'hasItemTemplate()' dará verdadero, incrustando este span personalizado con la fuente en línea.
+      -->
+      <span *appItemTemplate= "let font" [style.font-family]="font"> {{ font }}</span>
+
+  </app-item-selector>
 </div>
 
-<!-- SECCIÓN 3: SELECTOR DE TAMAÑO -->
+<!-- CONFIGURACIÓN BAJO NIVEL 2 (TIER 2): PERSONALIZACIÓN DE CONTENIDO INTERNO -->
 <div class="sizes-area">
-	<div class="item-selector">
-		<span>Size</span>
-		<div class="options-list">
-			@for (size of possibleSizes(); track size) {
-				<div
-					class="option-item"
-					[class.is-selected]="selectedSize() === size"
-					(click)="onSizeChange(size)"
-				>
-					{{ size }}
-				</div>
-			}
-		</div>
-	</div>
+  <app-item-selector
+    title="Sizes"
+    [options]="possibleSizes()"
+    [(selectedOption)]="selectedSize">
+
+       <!-- Funciona exactamente igual que la sección de fuentes, alterando únicamente el tamaño del texto -->
+      <span *appItemTemplate= "let size" [style.font-size]="size"> {{ size }}</span>
+
+  </app-item-selector>
 </div>
 
-<!-- ÁREA DE PREVISUALIZACIÓN (EDITOR) -->
+<!-- COMPONENTE CONSUMIDOR CONSUME LAS SIGNALS DEL CONTROLADOR EN TIEMPO REAL -->
 <div class="editor-area">
 	<textarea
 		placeholder="Type your text here..."
