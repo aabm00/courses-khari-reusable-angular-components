@@ -51,6 +51,12 @@
 //     }
 //   }
 
+  /**
+   * ESTILOS DEL CONTENEDOR CUSTOMIZADO DEL TIER 1:
+   * Al haber provisto un marcado completamente nuevo a través de 'appItemContainer' en la sección de colores,
+   * definimos las propiedades visuales que gobernarán ese nuevo div externo desde el componente padre.
+   * Hacemos uso de propiedades personalizadas de CSS (--color-option) inyectadas dinámicamente en el HTML.
+   */
   .color-container {
     border: 1px solid var(--color-option);
     color: var(--color-option);
@@ -63,13 +69,14 @@
     &:hover {
       background-color: color-mix(in srgb, var(--color-option), var(--n-00) 70%);
     }
-
+    /** Clase CSS aplicada dinámicamente cuando el flag booleano 'selected' del contexto es verdadero */
     &.chosen {
       background-color: var(--color-option);
       color: var(--n-00);
     }
   }
 
+  // Reglas fijas de posicionamiento de rejilla estructural del componente raíz
   .colors-area {
     grid-area: color;
   }
