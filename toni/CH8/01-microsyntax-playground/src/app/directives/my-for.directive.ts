@@ -1,6 +1,12 @@
 import { Directive, input } from "@angular/core";
 
+/**
+ * CONTRATO DE CONTEXTO PARA EL BUCLE GENÉRICO (MYFOR):
+ * Emula el comportamiento estático del *ngFor de Angular.
+ * El tipo <T> representa la estructura de un ítem individual de la colección.
+ */
 export interface MyForContext<T> {
+  /** Elemento principal asignado de forma implícita a la directiva bare 'let item' */
   readonly $implicit: T
   readonly index: number
   readonly first: boolean
@@ -9,6 +15,7 @@ export interface MyForContext<T> {
   readonly even: boolean
 }
 
+/** Firma genérica para la función de rastreo y optimización del bucle */
 export type MyForTrackBy<T> = (item: T, index: number) => T
 
 
@@ -16,8 +23,13 @@ export type MyForTrackBy<T> = (item: T, index: number) => T
     selector: '[myFor]'
 })
 export class MyFor<T> {
-
+  /**
+   * INPUT SECUNDARIO COMPUESTO (myFor + Of):
+   * Recibe la colección completa de datos desde la instrucción 'of items()'.
+   * Al tiparse como 'T[]', se convierte en el ancla principal de inferencia para toda la clase.
+   */
   readonly myForOf = input.required<T[]>() // of isn't a reserved keyword in MicroSystax only let and as are.
+  /** Input secundario opcional encargado del trackeo de elementos */
   readonly myForTrackBy = input<MyForTrackBy<T>>( (item, index) => item )
 
 

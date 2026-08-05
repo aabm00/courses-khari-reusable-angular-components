@@ -13,7 +13,34 @@
        the directive's internal context object, unwrapping into 'let-value="value"', 'let-i="index"
        let isFirst = first, let isLast = last'.
 -->
+<!--
+  =====================================================================================
+  GUÍA VISUAL DE DESAZUCARO DE MICROSINTAXIS (CASOS DE USO FINALES)
+  =====================================================================================
+-->
 
+<!-- REPETIDOR: DEMOSTRACIÓN DE ENTRADAS SECUNDARIAS Y CONTEXTO EN CONSISTENCIA -->
+<!--
+  TRANSFORMACIÓN DEL COMPILADOR EN MEMORIA (DESUGARING):
+  El asterisco destruye este 'div' y genera en la sombra la siguiente equivalencia:
+  <ng-template
+    [myRepeat]="5"
+    [myRepeatStart]="6"
+    [myRepeatSkip]="2"
+    let-value
+    let-i="index"
+    let-isFirst="first"
+    let-isLast="last"
+    let-total="myRepeat">
+      <div>...</div>
+  </ng-template>
+
+  EXPLICACIÓN DE ENLACES:
+  - '5 as total': Manda 5 al input 'myRepeat' y crea la variable 'total' apuntando a la clave context.myRepeat.
+  - 'start 6' y 'skip 2': Concatenación camelCase directa a los inputs '[myRepeatStart]' y '[myRepeatSkip]'.
+  - 'let value': Al ser huérfano, lee la propiedad context.$implicit.
+  - 'let i = index': Lee explicitamente context.index.
+-->
 <div *myRepeat="5 as total; start 6; skip 2;
   let value; let i = index; let isFirst = first; let isLast = last"
   >
@@ -34,7 +61,15 @@
 </ng-template>
 
 
-<!-- TIMER -->
+<!-- TEMPORIZADOR: ALIAS MÚLTIPLES AVANZADOS EN EXPRESIONES SECUNDARIAS -->
+<!--
+  PECULIARIDAD COMPILATORIA DE ALIAS SECUNDARIOS:
+  - 'times() as interval': Manda la señal al input primary y crea la variable local 'interval'
+     en base a context.myTimer.
+  - 'from: 10 as startingPoint': Manda 10 al input compuesto '[myTimerFrom]'. Al meterle un 'as', Angular
+    asume la convención de buscar la clave del input compuesto en el contexto; por ende, ligará 'startingPoint'
+    a la propiedad 'context.myTimerFrom'.
+-->
 
 <div *myTimer="times() as interval; from: 10 as startingPoint; to: 0; step: -1
   let count = value; let s = state"
@@ -45,11 +80,13 @@
 </div>
 
 
-<!-- MYIF
-
- It has to work not only for boolean values but also for truty values
+<!-- CONDICIONAL (MYIF): COMPLIANCE CON VALORES TRUTHY (GENÉRICOS) -->
+<!--
+  A diferencia de un booleano estricto, esta directiva emula al *ngIf nativo permitiendo capturar
+  un flujo dinámico (ej: 'string | null'). Al evaluar 'value() as ourVal', si la señal emite un string,
+  el condicional se cumple y 'ourVal' adopta el valor de la string tipada de forma estricta.
+  It has to work not only for boolean values but also for truty values
 -->
-
 <div *myIf="value() as ourVal">
   {{ ourVal }}
 </div>
@@ -60,7 +97,14 @@
 </div>
 
 
-<!-- MYFOR -->
+<!-- BUCLE GENÉRICO (MYFOR): INFERENCIA AUTOMÁTICA DE TIPOS -->
+<!--
+  EXPLICACIÓN DE LA PALABRA CLAVE 'of':
+  La microsintaxis no tiene noción de qué es 'of'. Para el compilador, es simplemente una clave secundaria.
+  Aplica la regla de prefijado: 'myFor' + 'Of' = '[myForOf]'.
+  - 'let item': Captura el context.$implicit. Como el componente maneja genéricos <T>, si 'items()' es
+    un array de strings, 'item' se auto-infiere como tipo 'string' con protección estricta en el IDE.
+-->
 
 <div *myFor="
   let item of items();

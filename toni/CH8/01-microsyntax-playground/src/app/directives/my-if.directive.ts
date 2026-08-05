@@ -1,7 +1,16 @@
 import { Directive, input } from "@angular/core";
 
+/**
+ * INTERFAZ DE CONTEXTO CON SOPORTE DE TIPADO TRUTHY GENÉRICO:
+ * Usamos el genérico <T> para capturar la naturaleza exacta de la expresión evaluada.
+ */
 export interface MyIfContext<T> {
   // Inputs passed as context
+  /**
+   * Clave idéntica al selector de la directiva. Permite el uso de '*myIf="value() as ourVal"'.
+   * Al mapear el tipo exacto <T>, si la expresión es 'string | null', el contexto sabrá
+   * que cuando el bloque se pinte, el valor será estrictamente la string limpia (no nula).
+   */
   readonly myIf: T
 }
 
@@ -10,7 +19,10 @@ export interface MyIfContext<T> {
     selector: '[myIf]'
 })
 export class MyIf<T> {
-
+  /**
+   * Input principal tipado con genéricos.
+   * Al no restringirse a 'boolean', tolera la evaluación de objetos o cadenas en condiciones truthy/falsy.
+   */
   readonly myIf = input.required<T>() // Because it must accept truty values not only booleans
 
 

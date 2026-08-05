@@ -2,12 +2,17 @@ import { Directive, effect, input, Signal } from "@angular/core";
 
 export type TimerState = 'running' | 'done';
 
+/**
+ * CONTRATO DE CONTEXTO ENRIQUECIDO PARA ALIAS MÚLTIPLES (MYTIMER):
+ */
 export interface MyTimerContext {
   readonly value: Signal<number>; // Current count
   readonly state: Signal<TimerState>;
 
   // Inputs passed as context
+  /** Habilita la captura del input primary mediante alias: '*myTimer="1000 as interval"' */
   readonly myTimer: Signal<number>
+  /** Habilita la captura del input compuesto secundario mediante alias: 'from: 10 as startingPoint' */
   readonly myTimerFrom: Signal<number>
 }
 
@@ -15,7 +20,7 @@ export interface MyTimerContext {
     selector: '[myTimer]'
 })
 export class MyTimer {
-
+  /** Configuración de entradas parametrizadas desde la microsintaxis */
   readonly myTimer = input.required<number>();
   readonly myTimerFrom = input(0);
   readonly myTimerTo = input(Infinity);
