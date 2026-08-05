@@ -1,0 +1,122 @@
+
+<!-- ADVANCED ANGULAR MICROSYNTAX COMPILATION RULE:
+  The asterisk (*) triggers a micro-syntax parser that unwraps the expression into the <ng-template> below.
+
+  1. INPUT PARAMETERS (From Parent to Directive):
+     - Implicit Binding: The first value '5' maps directly to the primary input '[myRepeat]'.
+     - Parameter Prefixing: Sub-properties 'start 6' and 'skip 2' are automatically mapped via CamelCase
+       concatenation to the directive's secondary inputs: '[myRepeatStart]' and '[myRepeatSkip]'.
+
+  2. TEMPLATE CONTEXT VARIABLES (From Directive back to Parent HTML):
+     - Implicit Context ('let value'): Captures the main value sent by the directive without an explicit key.
+     - Keyed Context ('let i = index'): Maps local template variables directly to keys exposed inside
+       the directive's internal context object, unwrapping into 'let-value="value"', 'let-i="index"
+       let isFirst = first, let isLast = last'.
+-->
+<!--
+  =====================================================================================
+  GUÍA VISUAL DE DESAZUCARO DE MICROSINTAXIS (CASOS DE USO FINALES)
+  =====================================================================================
+-->
+
+<!-- REPETIDOR: DEMOSTRACIÓN DE ENTRADAS SECUNDARIAS Y CONTEXTO EN CONSISTENCIA -->
+<!--
+  TRANSFORMACIÓN DEL COMPILADOR EN MEMORIA (DESUGARING):
+  El asterisco destruye este 'div' y genera en la sombra la siguiente equivalencia:
+  <ng-template
+    [myRepeat]="5"
+    [myRepeatStart]="6"
+    [myRepeatSkip]="2"
+    let-value
+    let-i="index"
+    let-isFirst="first"
+    let-isLast="last"
+    let-total="myRepeat">
+      <div>...</div>
+  </ng-template>
+
+  EXPLICACIÓN DE ENLACES:
+  - '5 as total': Manda 5 al input 'myRepeat' y crea la variable 'total' apuntando a la clave context.myRepeat.
+  - 'start 6' y 'skip 2': Concatenación camelCase directa a los inputs '[myRepeatStart]' y '[myRepeatSkip]'.
+  - 'let value': Al ser huérfano, lee la propiedad context.$implicit.
+  - 'let i = index': Lee explicitamente context.index.
+-->
+<div *myRepeat="5 as total; start 6; skip 2;
+  let value; let i = index; let isFirst = first; let isLast = last"
+  >
+  {{ i() }} of {{ total() }}: Index {{ i() }} {{ isLast() ? '(End of Batch)' : '' }}
+</div>
+
+<ng-template
+  [myRepeat]="5"
+  [myRepeatStart]="6"
+  [myRepeatSkip]="2"
+  let-value
+  let-i="index"
+  let-isFirst="first"
+  let-isLast="last"
+  let-total="myRepeat"
+>
+  <div> {{ i() }} of {{ total() }}: Index {{ i() }} {{ isLast() ? '(End of Batch)' : '' }} </div>
+</ng-template>
+
+
+<!-- TEMPORIZADOR: ALIAS MÚLTIPLES AVANZADOS EN EXPRESIONES SECUNDARIAS -->
+<!--
+  PECULIARIDAD COMPILATORIA DE ALIAS SECUNDARIOS:
+  - 'times() as interval': Manda la señal al input primary y crea la variable local 'interval'
+     en base a context.myTimer.
+  - 'from: 10 as startingPoint': Manda 10 al input compuesto '[myTimerFrom]'. Al meterle un 'as', Angular
+    asume la convención de buscar la clave del input compuesto en el contexto; por ende, ligará 'startingPoint'
+    a la propiedad 'context.myTimerFrom'.
+-->
+
+<div *myTimer="times() as interval; from: 10 as startingPoint; to: 0; step: -1
+  let count = value; let s = state"
+>
+  Count: {{ count() }}, State: {{ s() }}
+  Interval: {{ interval()}} // It's an input that also is used in the context creating an alias
+  Starting point {{ startingPoint() }}
+</div>
+
+
+<!-- CONDICIONAL (MYIF): COMPLIANCE CON VALORES TRUTHY (GENÉRICOS) -->
+<!--
+  A diferencia de un booleano estricto, esta directiva emula al *ngIf nativo permitiendo capturar
+  un flujo dinámico (ej: 'string | null'). Al evaluar 'value() as ourVal', si la señal emite un string,
+  el condicional se cumple y 'ourVal' adopta el valor de la string tipada de forma estricta.
+  It has to work not only for boolean values but also for truty values
+-->
+<div *myIf="value() as ourVal">
+  {{ ourVal }}
+</div>
+
+
+<div *ngIf="value() as ourVal">
+  {{ ourVal }}
+</div>
+
+
+<!-- BUCLE GENÉRICO (MYFOR): INFERENCIA AUTOMÁTICA DE TIPOS -->
+<!--
+  EXPLICACIÓN DE LA PALABRA CLAVE 'of':
+  La microsintaxis no tiene noción de qué es 'of'. Para el compilador, es simplemente una clave secundaria.
+  Aplica la regla de prefijado: 'myFor' + 'Of' = '[myForOf]'.
+  - 'let item': Captura el context.$implicit. Como el componente maneja genéricos <T>, si 'items()' es
+    un array de strings, 'item' se auto-infiere como tipo 'string' con protección estricta en el IDE.
+-->
+
+<div *myFor="
+  let item of items();
+  let i = index
+  let l = last
+  trackBy (i, j) => i">
+</div>
+
+
+<div *ngFor="
+  let item of items();
+  let i = index;
+  let l = last;
+  trackBy (i, j) => i">
+</div>
