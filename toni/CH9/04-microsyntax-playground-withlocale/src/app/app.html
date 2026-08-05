@@ -1,10 +1,13 @@
+
 <h1>Structural Directives Sample</h1>
 <h2>With Date Locale</h2>
 
+<!-- PANEL SUPERIOR: SELECTOR DE IDIOMAS DE LA APLICACIÓN -->
 <section class="settings" aria-label="Repeat settings">
   <div class="setting-card locale-setting">
     <label for="locale-select">Locale</label>
 
+    <!-- Enlazamos de doble vía la señal 'selectedLocale' para capturar la elección del usuario -->
     <select
       id="locale-select"
       [(ngModel)]="selectedLocale"
@@ -16,4 +19,20 @@
   </div>
 </section>
 
+<!--
+  EL LOGRO DE LA MICROSINTAXIS DE ESTRELLA (*withDateLocale):
+
+  ¿QUÉ HACE EL COMPILADOR TRAS BAMBALINAS CON EL ASTERISCO? (DESAZUCARO):
+  Angular intercepta el asterisco en fase de compilación, borra esta línea y genera este molde en memoria:
+  <ng-template [withDateLocale]="selectedLocale()">
+     <mat-calendar />
+  </ng-template>
+
+  - FLUJO DE ENTRADA: El valor de la señal 'selectedLocale()' se inyecta directamente en el input
+    principal de la directiva ('withDateLocale') gracias a que se llama igual que el selector.
+  - SIN VARIABLES 'LET-': Observa que aquí no ponemos 'let-algo' porque la directiva no expone datos hacia fuera,
+    su único trabajo es inyectar una configuración de servicios (idioma) hacia dentro de la etiqueta.
+  - RE-INITIALIZATION: Cada vez que cambias el Select, la directiva destruye el calendario anterior
+    y estampa uno nuevo con el inyector del nuevo idioma, actualizando los textos y la dirección de lectura en vivo.
+-->
 <mat-calendar *withDateLocale="selectedLocale()" />
