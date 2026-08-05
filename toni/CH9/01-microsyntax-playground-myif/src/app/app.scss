@@ -34,6 +34,7 @@
 		margin-bottom: 18px;
 	}
 
+  /** Estilos ergonómicos para los botones interactivos de alternancia de estado */
 	button {
 		padding: 10px 16px;
 		border: 0;
@@ -58,6 +59,7 @@
 		box-shadow: 0 4px 12px var(--color-shadow-strong-active);
 	}
 
+  /** Presentador visual estilizado encargado de enmarcar las vistas creadas dinámicamente */
 	.content-presenter {
 		margin: 0 12px 12px 0;
 		padding: 12px 16px;
