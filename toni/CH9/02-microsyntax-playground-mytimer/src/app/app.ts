@@ -9,8 +9,9 @@ import { MyTimer } from "./directives/my-timer.directive";
   styleUrl: './app.scss'
 })
 export class App {
-
+  /** Señal reactiva para gobernar los milisegundos del temporizador */
   readonly int = signal(2000);
+  /** Señal reactiva para gobernar el incremento numérico de cada paso */
   readonly step = signal(1);
 
   incrementInterval() {
@@ -26,6 +27,7 @@ export class App {
   }
 
   decrementStep() {
+    // Forzamos a que el paso mínimo sea siempre 1 para evitar congelar el bucle o restar
     this.step.update(v => Math.max(v - 1, 1));
   }
 }

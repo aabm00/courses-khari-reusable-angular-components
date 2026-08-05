@@ -1,8 +1,10 @@
 <h1>Structural Directives Sample</h1>
 <h2>My Timer</h2>
 <ul>
+  <!-- PANEL DE CONFIGURACIONES INTERACTIVAS -->
   <div class="settings">
 
+    <!-- CONTROL DEL TIEMPO (INTERVALO) -->
     <div class="interval-setting">
       <label>Interval</label>
       <button (click)="decrementInterval()">-</button>
@@ -10,6 +12,7 @@
       <button (click)="incrementInterval()">+</button>
     </div>
 
+    <!-- CONTROL DE LOS PASOS (STEP) -->
     <div class="step-setting">
       <label>Step</label>
       <button (click)="decrementStep()">-</button>
@@ -19,6 +22,20 @@
 
   </div>
 
+  <!--
+    CONSUMO DE LA DIRECTIVA ESTRUCTURAL PERSONALIZADA (*myTimer):
+
+    ¿CÓMO TRABAJA EL COMPILADOR AQUÍ? (DESAZUCARO SINTÁCTICO):
+    El asterisco (*) le ordena a Angular traducir esta sección en un bloque <ng-template> invisible:
+    <ng-template [myTimer]="int()" [myTimerFrom]="1" [myTimerTo]="10" [myTimerStep]="step()" let-v="value" let-s="state">
+       <div class="content-presenter">...</div>
+    </ng-template>
+
+    - ENTRADAS: 'int()' va al input primary 'myTimer'; 'from', 'to' y 'step' van a sus respectivos inputs compuestos.
+    - SALIDAS: 'let v = value' atrapa la señal de la cuenta; 'let s = state' atrapa la señal de estado running/done.
+    - REACTIVIDAD: Como 'v' y 's' son Signals que vienen del contexto tipado de la directiva,
+      las invocamos obligatoriamente con paréntesis 'v()' y 's()' para pintar su valor actual en la pantalla.
+  -->
   <div
     *myTimer="
       int(); from: 1; to: 10; step: step();
