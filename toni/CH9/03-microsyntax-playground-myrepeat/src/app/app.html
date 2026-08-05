@@ -1,0 +1,68 @@
+<h1>Structural Directives Sample</h1>
+<h2>My Repeat</h2>
+
+<!-- PANEL DE BOTONES INTERACTIVOS (SEÑALES PADRE) -->
+<section class="settings" aria-label="Repeat settings">
+  <!-- CONTROLADOR DEL CONTADOR: Modifica la cantidad de filas -->
+  <div class="setting-card count-setting">
+    <label>Count</label>
+    <button (click)="decrementCount()">-</button>
+    <span>{{ count() }}</span>
+    <button (click)="incrementCount()">+</button>
+  </div>
+
+  <!-- CONTROLADOR DEL INICIO: Modifica el número base de la secuencia -->
+  <div class="setting-card start-setting">
+    <label>Start</label>
+    <button (click)="decrementStart()">-</button>
+    <span>{{ start() }}</span>
+    <button (click)="incrementStart()">+</button>
+  </div>
+
+  <!-- CONTROLADOR DEL SALTO: Modifica la distancia entre números -->
+  <div class="setting-card skip-setting">
+    <label>Skip</label>
+    <button (click)="decrementSkip()">-</button>
+    <span>{{ skip() }}</span>
+    <button (click)="incrementSkip()">+</button>
+  </div>
+</section>
+
+<!-- LISTADO DE RESULTADOS GENERADO EN TIEMPO DE EJECUCIÓN -->
+<ul class="results">
+  <!--
+    CÓMO SE LIGAN LAS SEÑALES Y VARIABLES AQUÍ:
+
+    1. ENTRADAS (De App a la Directiva):
+       - 'count()' viaja directamente al input principal 'myRepeat'.
+       - 'start()' y 'skip()' se inyectan en las propiedades secundarias configuradas en camelCase.
+       Cada vez que pulsas un botón del panel de arriba, estas señales cambian y obligan a la
+       directiva a ejecutar su limpieza/incremento quirúrgico en el DOM.
+
+    2. CAPTURA DE VARIABLES CON 'LET-' (De la Directiva a App):
+       - 'count() as c': Guarda el total en la variable local 'c' usando la propiedad context.myRepeat.
+       - 'let v': Al no tener '=' detrás, captura directamente la propiedad por defecto context.$implicit.
+       - 'let i = index', 'let f = first', 'let l = last': Capturan el estado posicional de cada fila.
+
+    3. LLAMADAS A SIGNALS '()':
+       Como 'c', 'v', 'i', 'f' y 'l' son las Signals que fabrica e inyecta la directiva en su contexto,
+       es obligatorio llamarlas usando paréntesis '()' tanto en el HTML como en los enlaces CSS '[class.first]'.
+  -->
+  <li class="content-presenter"
+    *myRepeat="
+      count() as c;
+      start: start();
+      skip: skip();
+      let v;
+      let i = index;
+      let f = first;
+      let l = last
+    "
+    [class.first]="f()" [class.last]="l()">
+      <span class="index">{{i()}}</span>
+      <span class="seperator">/</span>
+      <span class="count">{{c()}}</span>
+      <span class="value-label">Value</span>
+      <span class="value">{{v()}}</span>
+  </li>
+</ul>
