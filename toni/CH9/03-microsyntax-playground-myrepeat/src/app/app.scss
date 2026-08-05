@@ -195,7 +195,12 @@
 			border-radius: 20px 0 0 20px;
 			background: linear-gradient(180deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 65%, white));
 		}
-
+    /**
+		 * ACOPLAMIENTO REPOSITORIO DE ESTILOS (FIRST / LAST):
+		 * Estas clases CSS se inyectan dinámicamente gracias a que las variables del contexto
+		 * 'f()' y 'l()' evalúan síncronamente las señales reactivas del componente hijo.
+		 * Cambian los bordes y el color decorativo de la barra izquierda en vivo.
+		 */
 		&.first {
 			border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-success-border));
 
@@ -223,6 +228,7 @@
 			font-weight: 700;
 		}
 
+		/** ESTILOS ESPECÍFICOS PARA LAS SUB-SECCIONES INTERNAS DE LA FILA */
 		.index,
 		.count {
 			min-height: auto;
