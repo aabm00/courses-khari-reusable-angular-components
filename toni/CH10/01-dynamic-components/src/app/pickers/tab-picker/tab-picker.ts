@@ -10,6 +10,7 @@ export class TabPickerComponent {
   readonly options = input.required<SelectOption[]>();
   readonly value = model.required<string>();
 
+  /** Al pulsar una pestaña, actualiza el valor del modelo propagándolo hacia el componente padre */
   select(val: string) {
     this.value.set(val);
   }

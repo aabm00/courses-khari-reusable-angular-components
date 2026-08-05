@@ -1,6 +1,30 @@
 # Practice 17 - Dynamic Components
 # CH10 - VIDEO 101 - 109
 
+---
+Ficheros comentados leer en orden:
+* src/app/models/product.model.ts
+* src/app/models/select-option.model.ts
+* src/app/tokens/view-option.model.ts
+* src/app/tokens/view-picker.token.ts
+* src/app/tokens/view-actions.token.ts
+* src/app/app.ts
+* src/app/app.html
+* src/app/views/grid-view/grid-view.ts
+* src/app/views/grid-view/grid-view.html
+* src/app/views/list-view/list-view.ts
+* src/app/views/list-view/list-view.html
+* src/app/views/cards-view/cards-view.ts
+* src/app/views/cards-view/cards-view.html
+* src/app/components/select-picker/select-picker.ts
+* src/app/components/select-picker/select-picker.html
+* src/app/components/tab-picker/tab-picker.ts
+* src/app/components/tab-picker/tab-picker.html
+* src/app/components/product-detail/product-detail.ts
+* src/app/components/product-detail/product-detail.html
+
+---
+
 In this exercise we will make the product catalog more flexible by reading both the available views and the component that picks the active view from configuration. The application already has three possible view components:
 
 - `GridViewComponent`

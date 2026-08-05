@@ -1,5 +1,10 @@
 <div class="list">
   @for (product of items(); track product.id) {
+    <!--
+      Representación en formato fila que ejecuta exactamente la misma acción delegada.
+      Esto demuestra el éxito del polimorfismo: tres diseños HTML radicalmente distintos
+      reaccionan exactamente igual ante el click del usuario utilizando la misma API de acciones.
+    -->
     <div class="list-row" (click)="onItemClick(product)">
       <img class="thumbnail" [src]="product.imageUrl" [alt]="product.name" />
       <div class="details">

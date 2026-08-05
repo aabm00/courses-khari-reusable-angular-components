@@ -11,15 +11,13 @@ import { VIEW_ACTIONS } from '../../tokens/view-actions.token';
 })
 export class CardsViewComponent {
   readonly items = input.required<Product[]>();
-
   readonly selection = output<Product>();
 
-  readonly viewActions = inject(VIEW_ACTIONS, {optional: true})
-
+  /** Leemos las acciones del inyector dinámico evitando tener outputs huérfanos */
+  readonly viewActions = inject(VIEW_ACTIONS, {optional: true});
 
   onItemClick(product: Product) {
     this.selection.emit(product);
-
-    this.viewActions?.onItemSelect(product)
+    this.viewActions?.onItemSelect(product);
   }
 }

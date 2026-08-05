@@ -13,11 +13,12 @@ export class ListViewComponent {
   readonly items = input.required<Product[]>();
   readonly selection = output<Product>();
 
-  readonly viewActions = inject(VIEW_ACTIONS, {optional: true})
+  /** Inyectamos las acciones opcionales provistas en la sombra por el inyector del padre */
+  readonly viewActions = inject(VIEW_ACTIONS, {optional: true});
 
   onItemClick(product: Product) {
+    // Ejecutamos ambos canales de comunicación para garantizar la retrocompatibilidad
     this.selection.emit(product);
-
-    this.viewActions?.onItemSelect(product)
+    this.viewActions?.onItemSelect(product);
   }
 }

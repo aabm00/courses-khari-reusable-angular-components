@@ -1,5 +1,9 @@
 <div class="cards">
   @for (product of items(); track product.id) {
+    <!--
+      Mismo mecanismo de interconexión: el click captura el objeto 'product' de esta iteración
+      y lo manda al controlador para que viaje a través del canal de la inyección de dependencias.
+    -->
     <div class="card" (click)="onItemClick(product)">
       <img [src]="product.imageUrl" [alt]="product.name" />
       <div class="card-body">
