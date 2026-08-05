@@ -1,0 +1,22 @@
+<div class="grid">
+  <!-- Recorremos la lista de productos que nos llega a través del input dinámico 'items()' -->
+  @for (product of items(); track product.id) {
+    <!--
+      EL DISPARADOR DE SELECCIÓN:
+      Al hacer click en la tarjeta, llamamos al método 'onItemClick(product)' de la vista.
+      Como vimos en el archivo TypeScript, este método invocará internamente el callback
+      'viewActions.onItemSelect()' provisto por el inyector hijo del padre, logrando que
+      la aplicación sepa qué producto mostrar en el lateral sin usar un (output) en el HTML raíz.
+    -->
+    <div class="grid-card" (click)="onItemClick(product)">
+      <div class="grid-card-img">
+        <img [src]="product.imageUrl" [alt]="product.name" />
+      </div>
+      <div class="grid-card-info">
+        <h3>{{ product.name }}</h3>
+        <!-- Formateamos el precio usando la tubería de moneda nativa de Angular -->
+        <p class="price">{{ product.price | currency }}</p>
+      </div>
+    </div>
+  }
+</div>

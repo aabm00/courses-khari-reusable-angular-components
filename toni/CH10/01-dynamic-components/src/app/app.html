@@ -1,0 +1,40 @@
+<div class="catalog">
+  <header class="catalog-header">
+
+    <!--
+      EL PUNTO DE ANCLAJE (#pickerAnchor):
+      Esta variable de referencia le avisa a 'viewChild' dónde debe incrustar por código
+      el selector dinámico (Pestañas o Desplegables) gobernado desde el constructor en 'app.ts'.
+    -->
+    <h1 #pickerAnchor>Product Catalog</h1>
+
+    <!-- <app-select-picker
+      [options]="views()"
+      [(value)]="selectedView"
+      /> -->
+  </header>
+  <main class="catalog-content">
+    <!-- <app-list-view [items]="products()"
+      (selection)="selectedProduct.set($event)" /> -->
+
+    <!--
+      EL RENDERIZADOR DINÁMICO CENTRAL (*ngComponentOutlet):
+      Sustituimos el listado estático antiguo por este mecanismo flexible:
+      - 'activeViewComponent()': Devuelve la clase del componente (Grid, List, Cards) según se necesite.
+      - 'inputs: activeViewInputs()': Envia la lista viva de productos hacia la vista dinámica.
+      - 'injector: viewInjector': Suministra el inyector hijo cargado con las funciones de selección,
+        resolviendo de raíz la limitación de la falta de outputs nativos en esta directiva.
+    -->
+    <ng-container *ngComponentOutlet="activeViewComponent();
+      inputs: activeViewInputs(); injector: viewInjector";
+    />
+  </main>
+
+  <aside class="catalog-sidebar">
+    @if (selectedProduct(); as product) {
+      <app-product-detail [product]="product" />
+    } @else {
+      <p class="placeholder">Click a product to see details</p>
+    }
+  </aside>
+</div>
