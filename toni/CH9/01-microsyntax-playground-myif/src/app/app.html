@@ -1,0 +1,44 @@
+<h1>
+  Structural Directives Sample
+</h1>
+
+<ul>
+  <li>Flag Value: {{flag()}}</li>
+  <li>Object Value: {{obj() | json}}</li>
+</ul>
+
+<div class="tools">
+  <button (click)="toggleFlag()">Toggle Flag</button>
+  <button (click)="toggleObj()">Toggle Object</button>
+</div>
+
+<!-- CASO DE USO 1: EVALUACIÓN BOOLEANA SIMPLE -->
+<!--
+  Si 'flag()' emite true, la directiva estampa el contenido.
+  Si emite false, limpia el contenedor borrando el bloque del DOM.
+-->
+<div *myIf="flag()" class="content-presenter">
+  The Flag is Shown
+</div>
+
+<!-- CASO DE USO 2: CAPTURA DE OBJETO MEDIANTE ALIAS (TRUTHY NARROWING) -->
+<!--
+  Aquí ocurre la magia del Type Safety coordinada en el Paso 12:
+  - 'obj() as item' se evalúa. Si 'obj()' es null, la directiva no pinta nada.
+  - Si contiene el objeto de coordenadas, la directiva estampa el bloque y expone el objeto en la variable 'item'.
+  - Gracias al 'ngTemplateGuard_myIf' y al context guard de la directiva, el editor de código
+    sabe con certeza matemática que 'item' NO es nulo aquí dentro. Por lo tanto, podemos escribir
+    'item.x' de forma limpia y directa, eliminando para siempre las aserciones no nulas 'item!.x'.
+-->
+<div *myIf="obj() as item" class="content-presenter">
+  Object Values
+  X: {{item.x}}
+  Y: {{item.y}}
+</div>
+
+
+<!-- COMPARATIVA CON LA DIRECTIVA NATIVA: Demuestra que nuestra directiva tiene idéntico comportamiento y robustez -->
+<div *ngIf="obj() as nativeItem" class="content-presenter">
+  <h3>Vista Nativa (*ngIf):</h3>
+  <p>X: {{ nativeItem.x }} | Y: {{ nativeItem.y }}</p>
+</div>
