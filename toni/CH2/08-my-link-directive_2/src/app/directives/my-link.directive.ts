@@ -44,26 +44,57 @@ export function provideMyLinkActiveClass(className: string): Provider {
 })
 export class MyLink {
 
+  /**
+   * =========================================================================================
+   * ¿POR QUÉ ESTE INJECT NO CREA UNA INSTANCIA NUEVA? (El Patrón Simbionte)
+   * =========================================================================================
+   * Al haber declarado 'RouterLinkActive' dentro de la matriz 'hostDirectives', Angular fusiona
+   * ambas directivas en el mismo elemento HTML.
+   * Por lo tanto, al ejecutar 'inject(RouterLinkActive)', Angular NO crea un objeto huérfano;
+   * lo que hace es buscar en el mismo elemento la directiva anfitriona y entregarte el control
+   * total de su instancia viva de TypeScript.
+   * =========================================================================================
+   */
   readonly myLinkActive = inject(RouterLinkActive)
 
-  // =========================================================================================
-  // 3. INYECCIÓN OPCIONAL TOLERANTE A FALLOS
-  // =========================================================================================
-  // Aquí ocurre la magia. Le pedimos a Angular el valor de nuestra llave única.
-  // Con '{optional: true}', le decimos: "Si algún componente padre configuró una clase custom,
-  // dámela. Si nadie configuró nada, no rompas la app, devuélveme null".
-  // =========================================================================================
+  /**
+   * =========================================================================================
+   * ¿CÓMO VIAJA EL DATO SIN USAR EL HTML? (El Mecanismo de la Cascada de Inyección)
+   * =========================================================================================
+   * 1. El componente raíz ('app.ts') registra en su inyector: "Para la llave MY_LINK_ACTIVE_CLASS,
+   *    el valor es 'chosen'".
+   * 2. Cuando esta directiva se despierta, ejecuta esta línea. El comando 'inject()' detiene el
+   *    renderizado un milisegundo y empieza a mirar hacia arriba en el árbol de componentes (padres).
+   * 3. Al llegar a 'App', encuentra la coincidencia de la llave y Angular extrae el valor ('chosen')
+   *    asignándolo directamente a esta variable 'className'.
+   *
+   * Si la directiva se usara en otra sección de la app donde nadie configuró el proveedor,
+   * '{optional: true}' evita que el sistema explote y nos devuelve un pacífico 'null'.
+   * =========================================================================================
+   */
   readonly className = inject(MY_LINK_ACTIVE_CLASS, {optional: true})
 
   constructor() {
-    // =========================================================================================
-    // 4. ESTRATEGIA DE CONTINGENCIA (Fallback Pattern)
-    // =========================================================================================
-    // Si 'this.className' existe (porque se usó el proveedor), aplicamos esa clase (ej: 'chosen').
-    // Si no existe (es null), aplicamos la clase por defecto de toda la vida: 'selected'.
-    // Ventaja: La directiva es 100% autónoma por defecto, pero infinitamente personalizable.
-    // =========================================================================================
+
+    /**
+     * =========================================================================================
+     * EXPLICACIÓN DEL TRUCO FINAL (Hackeando los Inputs por código TypeScript)
+     * =========================================================================================
+     * La directiva nativa 'RouterLinkActive' expone una propiedad interna en su clase llamada
+     * exactamente 'routerLinkActive' (que mapea al input que antes escribíamos en el HTML).
+     *
+     * Como en el paso anterior atrapamos su instancia viva ('this.myLinkActive'), ahora podemos
+     * escribir directamente sobre sus propiedades usando código TypeScript puro.
+     *
+     * FLUJO LOGÍSTICO:
+     * - Si 'this.className' recibió el agua de la cascada (ej: 'chosen'), se la inyectamos a la fuerza.
+     * - Si vino 'null' (porque nadie configuró nada arriba), el operador '||' activa la contingencia
+     *   y le clava el string por defecto 'selected'.
+     *
+     * Resultado: Hemos configurado el estilo activo de toda una suite de enlaces de forma 100%
+     * programática sin escribir una sola propiedad molesta en las etiquetas del HTML.
+     * =========================================================================================
+     */
     this.myLinkActive.routerLinkActive = this.className || 'selected'
   }
 }
-
